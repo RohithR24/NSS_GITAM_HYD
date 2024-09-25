@@ -18,7 +18,7 @@ const Hero = () => {
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
           NSS GITAM, Hyderabad
         </h1>
-        <div className="w-24 border-t-2 border-white mb-4"></div>
+        <div className="relative w-1/3 border-t-2 border-white mb-8"></div>
         <p className="text-lg md:text-xl lg:text-2xl font-semibold">
           NOT ME BUT YOU
         </p>
