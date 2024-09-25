@@ -3,14 +3,26 @@ import {campus2, campus1,  hero} from "../public/images/index";
 
 const Hero = () => {
   return (
-    <div 
-    className="absolute flex items-center justify-center h-screen w-full bg-cover bg-center"
-    style={{ backgroundImage: `url(${campus1.src})` }} 
-    >
-      
-      <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white text-center shadow-md p-4">
-        Not Me, But You
-      </h1>
+      <div className="relative h-screen w-full">
+      {/* Background image with overlay */}
+      <div
+        className="absolute inset-0 bg-cover bg-center w-full"
+        style={{ backgroundImage: `url(${campus1.src})` }} 
+      >
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-black opacity-60"></div>
+      </div>
+
+      {/* Content in the center */}
+      <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-4">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
+          NSS GITAM, Hyderabad
+        </h1>
+        <div className="w-24 border-t-2 border-white mb-4"></div>
+        <p className="text-lg md:text-xl lg:text-2xl font-semibold">
+          NOT ME BUT YOU
+        </p>
+      </div>
     </div>
   );
 };
