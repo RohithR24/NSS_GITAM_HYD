@@ -21,16 +21,16 @@ const NavBar = () => {
             <li key={item.label}>
               <a
                 href={item.href}
-                className="font-montserrat leading-normal text-lg text-slate-gray"
+                className="font-montserrat leading-normal lg:text-xl md:text-lg text-slate-gray"
               >
                 {item.label}
               </a>
             </li>
           ))}
         </ul>
-        {/* <div className="hidden max-lg:block">
-          <img src={hamburger} alt="hamburger icon" width={25} height={25} />
-        </div> */}
+        <div className="hidden max-lg:block">
+          <Image src={hamburger} alt="hamburger icon" width={25} height={25} />
+        </div>
       </nav>
     </header>
   );
