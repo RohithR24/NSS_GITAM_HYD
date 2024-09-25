@@ -10,6 +10,11 @@ import shieldTick from './shield-tick.svg'
 import star from './star.svg'
 import truckFast from './truck-fast.svg'
 import twitter from './twitter.svg'
+import blood from './blood.svg'
+import bookdonation from './book-donation.svg'
+import bookdonation2 from './book-donation2.svg'
+import volunteer from './volunteer.svg'
+import collaboration from './collaboration.svg'
 
 export {
     arrowRight,
@@ -23,5 +28,10 @@ export {
     shieldTick,
     star,
     truckFast,
-    twitter
+    twitter,
+    blood,
+    bookdonation,
+    bookdonation2,
+    volunteer,
+    collaboration
 }
