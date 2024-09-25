@@ -5,7 +5,7 @@ import Image from "next/image";
 
 const NavBar = () => {
   return (
-    <header className="absolute z-10 w-full container mx-auto px-4 py-8 flex justify-center items-center">
+    <header className="absolute z-10 w-full mx-auto px-4 py-8 flex justify-center items-center">
       <nav className="flex justify-between items-center max-container text-white">
         <a href="/">
           <Image
@@ -28,9 +28,9 @@ const NavBar = () => {
             </li>
           ))}
         </ul>
-        <div className="hidden max-lg:block">
+        {/* <div className="hidden max-lg:block">
           <img src={hamburger} alt="hamburger icon" width={25} height={25} />
-        </div>
+        </div> */}
       </nav>
     </header>
   );
