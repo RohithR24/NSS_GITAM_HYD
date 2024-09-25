@@ -1,5 +1,5 @@
 import React from "react";
-import { campus2, campus1, hero } from "../public/images/index";
+import { campus2, campus1, hero } from "../../public/images/index";
 
 const Hero = () => {
   return (

@@ -1,6 +1,6 @@
-import { hamburger } from "../public/icons/index";
-import { navLinks } from "../constants/index";
-import { logo } from "../public/images/index";
+import { hamburger } from "../../public/icons/index";
+import { navLinks } from "../../constants/index";
+import { logo } from "../../public/images/index";
 import Image from "next/image";
 
 const NavBar = () => {
