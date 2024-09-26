@@ -9,11 +9,16 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        customBlue: {
+          light: '#a7b9ff',   // Lighter shade
+          DEFAULT: '#2849db', // Base color
+          dark: '#1c34a6',    // Darker shade
+        }
       },
     },
   },
-  plugins: [],
+  plugins: []
 };
+
+  
 export default config;

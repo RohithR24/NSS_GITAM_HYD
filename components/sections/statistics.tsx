@@ -14,7 +14,7 @@ const Statistics = () => {
         Our Outstanding Impact
       </p>
       <div className="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-y-5 lg:gap-y-0 gap-x-5 place-items-center w-full mx-auto max-w-7xl px-5">
-        <div className="flex flex-col justify-center items-center bg-[#FFF6F3] px-4 h-[126px] w-[100%] md:w-[281px] md:h-[192px] rounded-lg justify-self-center">
+        <div className="flex flex-col justify-center items-center bg-[#b7c4ff] px-4 h-[126px] w-[100%] md:w-[281px] md:h-[192px] rounded-lg justify-self-center">
           <div className="flex flex-row justify-center items-center">
             <Image
               src={volunteer}
@@ -30,7 +30,7 @@ const Statistics = () => {
             Active Volunteers
           </p>
         </div>
-        <div className="flex flex-col justify-center items-center bg-[#FFF6F3] px-4 h-[126px] w-[100%] md:w-[281px] md:h-[192px] rounded-lg justify-self-center">
+        <div className="flex flex-col justify-center items-center bg-[#b7c4ff] px-4 h-[126px] w-[100%] md:w-[281px] md:h-[192px] rounded-lg justify-self-center">
           <div className="flex flex-row justify-center items-center">
             <Image
               src={blood}
@@ -46,7 +46,9 @@ const Statistics = () => {
             Blood Donation Camps
           </p>
         </div>
-        <div className="flex flex-col justify-center items-center bg-[#FFF6F3] px-4 h-[126px] w-[100%] md:w-[281px] md:h-[192px] rounded-lg justify-self-center">
+        <div 
+          className="flex flex-col justify-center items-center bg-[#b7c4ff] filter brightness-30 px-4 h-[126px] w-[100%] md:w-[281px] md:h-[192px] rounded-lg justify-self-center">
+        {/* className="flex flex-col justify-center items-center bg-[#b7c4ff] filter brightness-30 px-4 h-[126px] w-[100%] md:w-[281px] md:h-[192px] rounded-lg justify-self-center"> */}
           <div className="flex flex-row justify-center items-center">
             <Image
               src={bookdonation}
@@ -62,7 +64,7 @@ const Statistics = () => {
             Book Distributions
           </p>
         </div>
-        <div className="flex flex-col justify-center items-center bg-[#FFF6F3] px-4 h-[126px] w-[100%] md:w-[281px] md:h-[192px] rounded-lg justify-self-center">
+        <div className="flex flex-col justify-center items-center bg-[#b7c4ff] px-4 h-[126px] w-[100%] md:w-[281px] md:h-[192px] rounded-lg justify-self-center">
           <div className="flex flex-row justify-center items-center">
             <Image
               src={collaboration}
