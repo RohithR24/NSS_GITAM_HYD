@@ -3,10 +3,11 @@ import hero from './hero.jpg';
 import campus1 from './campus1.jpg';
 import campus2 from './campus2.jpg';
 import logo from './nss-logo.png';
-
+import Itc from './Itc.png'
 export {
     hero,
     campus1,
     campus2,
-    logo
+    logo,
+    Itc
 }
