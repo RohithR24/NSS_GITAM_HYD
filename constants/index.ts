@@ -6,7 +6,7 @@ export const navLinks = [
     { href: "#contact-us", label: "Contact Us" },
 ];
 
-export const Initiatives = [
+export const InitiativesData = [
     {
       image: "HarithaHaram",
       title: "Haritha Haram",
