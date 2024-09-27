@@ -8,16 +8,16 @@ const InitiativesSection = () => {
       <p className="font-semibold text-2xl md:text-3xl text-center">
         Initiatives
       </p>
-      <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {Initiatives.map((item, key) => (
-          <Card
-            key={key}                                                    
-            image={item.image}
-            title={item.title}
-            content={item.content}
-          />
-        ))}
-      </div>                                                                                
+        <div className="relative grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-4">
+          {Initiatives.map((item, key) => (
+            <Card
+              key={key}
+              image={item.image}
+              title={item.title}
+              content={item.content}
+            />
+          ))}
+        </div>
     </section>
   );
 };
