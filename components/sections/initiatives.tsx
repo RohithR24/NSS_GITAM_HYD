@@ -1,22 +1,25 @@
 import React from "react";
 import { Card } from "@/components/ui";
-//import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
-import { Itc } from "@/public/images/index";
-import Image from "next/image";
+import { Initiatives } from "@/constants";
 
-const initiatives = () => {
+const InitiativesSection = () => {
   return (
     <section className="flex flex-col">
       <p className="font-semibold text-2xl md:text-3xl text-center">
         Initiatives
       </p>
-      <div className="relative grid grid-cols-3 gap-4">
-        <Card />
-        <Card />
-        <Card />
-      </div>
+      <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {Initiatives.map((item, key) => (
+          <Card
+            key={key}                                                    
+            image={item.image}
+            title={item.title}
+            content={item.content}
+          />
+        ))}
+      </div>                                                                                
     </section>
   );
 };
 
-export default initiatives;
+export default InitiativesSection;

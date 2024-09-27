@@ -7,6 +7,8 @@ import {
   collaboration
 } from "../../public/icons/index";
 import Image from "next/image";
+
+
 const Statistics = () => {
   return (
     <section className="flex flex-col">
