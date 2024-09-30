@@ -1,3 +1,6 @@
+import { facebook, instagram,  twitter } from "@/public/icons/index";
+
+
 export const navLinks = [
     { href: "#home", label: "Home" },
     { href: "#about-us", label: "About Us" },
@@ -27,4 +30,42 @@ export const InitiativesData = [
       title: "Book Distribution",
       content: "Book distribution as a social service involves providing free or affordable books to underserved communities, schools, or individuals to promote education and literacy. This initiative helps bridge educational gaps, supports lifelong learning, and empowers people with knowledge. Often carried out by NGOs, charities, or volunteers, these programs focus on reaching remote areas, marginalized groups, or low-income families, ensuring access to quality reading material that might otherwise be out of reach. The goal is to foster a culture of reading and provide resources for personal and educational development."
     }
+];
+
+
+export const footerLinks = [
+  {
+      title: "Products",
+      links: [
+          { name: "Air Force 1", link: "/" },
+          { name: "Air Max 1", link: "/" },
+          { name: "Air Jordan 1", link: "/" },
+          { name: "Air Force 2", link: "/" },
+          { name: "Nike Waffle Racer", link: "/" },
+          { name: "Nike Cortez", link: "/" },
+      ],
+  },
+  {
+      title: "Help",
+      links: [
+          { name: "About us", link: "/" },
+          { name: "FAQs", link: "/" },
+          { name: "How it works", link: "/" },
+          { name: "Privacy policy", link: "/" },
+          { name: "Payment policy", link: "/" },
+      ],
+  },
+  {
+      title: "Get in touch",
+      links: [
+          { name: "customer@nike.com", link: "mailto:customer@nike.com" },
+          { name: "+92554862354", link: "tel:+92554862354" },
+      ],
+  },
+];
+
+export const socialMedia = [
+  { src: facebook, alt: "facebook logo" },
+  { src: twitter, alt: "twitter logo" },
+  { src: instagram, alt: "instagram logo" },
 ];
