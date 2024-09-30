@@ -6,6 +6,13 @@ import logo from './nss-logo.png';
 import Itc from './Itc.png'
 import HarithaHaram from './HarithaHaram.jpeg'
 import BookDistribution from './BookDistribution.jpeg'
+import TJIYLC from './TJIYLC.png'
+import NtrTrust from './ntr-trust.png'
+import LionsClub from './lions-club.png' 
+import GHMC1 from './ghmc.jpg'
+import GHMC2 from './ghmc.png'
+import HarithHaramLogo from './harithaharam-logo.jpeg'
+
 export {
     hero,
     campus1,
@@ -13,5 +20,10 @@ export {
     logo,
     Itc,
     HarithaHaram,
-    BookDistribution
+    BookDistribution,
+    NtrTrust,
+    TJIYLC,
+    LionsClub,
+    GHMC1,
+    HarithHaramLogo
 }
