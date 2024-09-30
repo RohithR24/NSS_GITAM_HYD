@@ -3,6 +3,7 @@ import {
   Statistics,
   Initiatives,
   Collaborations,
+  Team
 } from "@/components/sections/index";
 export default function Home() {
   return (
@@ -16,6 +17,9 @@ export default function Home() {
       </section>
       <section className="px-0 py-10 ">
         <Collaborations />
+      </section>
+      <section>
+        <Team />
       </section>
     </div>
   );
