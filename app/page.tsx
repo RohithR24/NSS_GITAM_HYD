@@ -14,7 +14,7 @@ export default function Home() {
       <section className="px-0 py-10 ">
         <Initiatives />
       </section>
-      <section>
+      <section className="px-0 py-10 ">
         <Collaborations />
       </section>
     </div>
