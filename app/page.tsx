@@ -4,7 +4,7 @@ import {
   Initiatives,
   Collaborations,
   Team,
-  Footer
+  Footer,
 } from "@/components/sections/index";
 export default function Home() {
   return (
@@ -22,8 +22,8 @@ export default function Home() {
       <section>
         <Team />
       </section>
-      <section>
-      <Footer/>
+      <section className=" bg-black padding-x padding-t pb-8 w-full">
+        <Footer />
       </section>
     </div>
   );
