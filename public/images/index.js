@@ -12,6 +12,7 @@ import LionsClub from './lions-club.png'
 import GHMC1 from './ghmc.jpg'
 import GHMC2 from './ghmc.png'
 import HarithHaramLogo from './harithaharam-logo.jpeg'
+import NSSLogo from './NSS-Symbol.jpeg'
 
 export {
     hero,
@@ -25,5 +26,6 @@ export {
     TJIYLC,
     LionsClub,
     GHMC1,
-    HarithHaramLogo
+    HarithHaramLogo,
+    NSSLogo
 }
