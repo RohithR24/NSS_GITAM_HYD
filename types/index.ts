@@ -4,3 +4,8 @@ export interface CardProps{
     content: string;
     
 }
+
+export interface ButtonProps{
+    title: string;
+    color: string;
+}
