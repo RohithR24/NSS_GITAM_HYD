@@ -13,6 +13,9 @@ const config: Config = {
           light: '#a7b9ff',   // Lighter shade
           DEFAULT: '#2849db', // Base color
           dark: '#1c34a6',    // Darker shade
+        },
+        nssRed:{
+          dark: '#e53624'
         }
       },
     },
