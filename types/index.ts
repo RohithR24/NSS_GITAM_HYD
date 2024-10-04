@@ -9,3 +9,10 @@ export interface ButtonProps{
     title: string;
     color: string;
 }
+
+
+export interface StatCardProps {
+  icon: string | any;
+  endNumber: number;
+  label: string;
+}

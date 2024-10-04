@@ -14,6 +14,7 @@ import GHMC2 from './ghmc.png'
 import HarithHaramLogo from './harithaharam-logo.jpeg'
 import NSSLogo from './NSS-Symbol.jpeg'
 import SpecialCamp from './Special-Camp.JPG'
+import SocialService from './social-services.png'
 export {
     hero,
     campus1,
@@ -28,5 +29,6 @@ export {
     GHMC1,
     HarithHaramLogo,
     NSSLogo,
-    SpecialCamp
+    SpecialCamp,
+    SocialService
 }
