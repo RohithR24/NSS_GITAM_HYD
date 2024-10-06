@@ -14,7 +14,7 @@ import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { Linkedin, Instagram, Facebook } from "lucide-react";
-import { Coordinator } from "@/public/team/index";
+import { Coordinator, Avatar } from "@/public/team/index";
 
 interface TeamMember {
   id: number;
@@ -34,8 +34,8 @@ const teamStructure: {
 } = {
   president: {
     id: 1,
-    name: "Dr. Nagendra Kumar ",
-    role: "President",
+    name: "Dr. P.V Nagendra Kumar ",
+    role: "NSS Co-Ordinator",
     image: Coordinator,
     social: {
       linkedin: "https://linkedin.com/in/johndoe",
@@ -46,9 +46,9 @@ const teamStructure: {
   members: [
     {
       id: 2,
-      name: "Alice Johnson",
-      role: "Vice President",
-      image: "/placeholder.svg?height=150&width=150&text=VP",
+      name: "Faculty 1",
+      role: "Program Co-Ordinator",
+      image: Avatar,
       social: {
         linkedin: "https://linkedin.com/in/alicejohnson",
         instagram: "https://instagram.com/alicejohnson",
@@ -56,9 +56,9 @@ const teamStructure: {
     },
     {
       id: 3,
-      name: "Bob Smith",
-      role: "Secretary",
-      image: "/placeholder.svg?height=150&width=150&text=Secretary",
+      name: "Faculty 2",
+      role: "Program Co-Ordinator",
+      image: Avatar,
       social: {
         linkedin: "https://linkedin.com/in/bobsmith",
         facebook: "https://facebook.com/bobsmith",
@@ -66,9 +66,9 @@ const teamStructure: {
     },
     {
       id: 4,
-      name: "Carol Williams",
-      role: "Treasurer",
-      image: "/placeholder.svg?height=150&width=150&text=Treasurer",
+      name: "Faculty 3",
+      role: "Program Co-Ordinator",
+      image: Avatar,
       social: {
         instagram: "https://instagram.com/carolwilliams",
         facebook: "https://facebook.com/carolwilliams",
@@ -76,9 +76,9 @@ const teamStructure: {
     },
     {
       id: 5,
-      name: "David Brown",
-      role: "Event Coordinator",
-      image: "/placeholder.svg?height=150&width=150&text=Coordinator",
+      name: "Faculty 4",
+      role: "Program Co-Ordinator",
+      image: Avatar,
       social: {
         linkedin: "https://linkedin.com/in/davidbrown",
         instagram: "https://instagram.com/davidbrown",
@@ -90,7 +90,7 @@ const teamStructure: {
 const SocialLinks: React.FC<{ social: TeamMember["social"] }> = ({
   social,
 }) => (
-  <div className="flex items-center justify-center space-x-2 mt-2 bg-color-white">
+  <div className="flex items-center justify-center space-x-2 bg-color-white">
     {social.linkedin && (
       <a
         href={social.linkedin}
@@ -157,7 +157,7 @@ const TeamMemberCard: React.FC<{
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
-              className=" bottom-full left-1/2 transform -translate-x-1/2 mb-1"
+              className=" bottom-full left-1/2 transform -translate-x-1/2"
             >
               <SocialLinks social={member.social} />
             </motion.div>
