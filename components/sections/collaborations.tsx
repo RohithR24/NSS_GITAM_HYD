@@ -37,7 +37,7 @@ const Collaborator: React.FC<CollaboratorProps> = ({ src, alt }) => {
         className="relative w-32 h-32 md:w-40 md:h-40"
       >
         <Image
-          src={TJIYLC}
+          src={src}
           alt={alt}
           layout="fill"
           objectFit="contain"
@@ -50,11 +50,11 @@ const Collaborator: React.FC<CollaboratorProps> = ({ src, alt }) => {
 
 export default function Collaborations() {
   const collaborators = [
-    { src: {TJIYLC}, alt: "Green plant logo" },
-    { src: {TJIYLC}, alt: "Stick figure with colorful circles logo" },
-    { src: "/placeholder.svg?height=160&width=160&text=Logo+3", alt: "Lions Club International logo" },
-    { src: "/placeholder.svg?height=160&width=160&text=Logo+4", alt: "NTR Trust logo" },
-    { src: "/placeholder.svg?height=160&width=160&text=Logo+5", alt: "GHMC logo" },
+    { src: TJIYLC, alt: "TJIYLC" },
+    { src: NtrTrust, alt: "NTR Trust" },
+    { src: LionsClub, alt: "Lions Club" },
+    { src: GHMC1, alt: "GHMC" },
+    { src: HarithHaramLogo, alt: "HarithaHaram Logo" },
   ]
 
   return (
