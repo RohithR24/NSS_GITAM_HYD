@@ -15,6 +15,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { Linkedin, Instagram, Facebook } from "lucide-react";
 import { Coordinator, Avatar } from "@/public/team/index";
+import { TeamDataProps, TeamProfileProps } from "@/types";
 
 interface TeamMember {
   id: number;
@@ -29,10 +30,10 @@ interface TeamMember {
 }
 
 const teamStructure: {
-  president: TeamMember;
+  Head: TeamMember;
   members: TeamMember[];
 } = {
-  president: {
+  Head: {
     id: 1,
     name: "Dr. P.V Nagendra Kumar ",
     role: "NSS Co-Ordinator",
@@ -126,8 +127,8 @@ const SocialLinks: React.FC<{ social: TeamMember["social"] }> = ({
 
 const TeamMemberCard: React.FC<{
   member: TeamMember;
-  isPresident?: boolean;
-}> = ({ member, isPresident = false }) => {
+  isHead?: boolean;
+}> = ({ member, isHead = false }) => {
   const [isHovered, setIsHovered] = useState(false);
   return (
     <motion.div
@@ -142,14 +143,14 @@ const TeamMemberCard: React.FC<{
         <Image
           src={member.image}
           alt={member.name}
-          width={isPresident ? 200 : 150}
-          height={isPresident ? 200 : 150}
+          width={isHead ? 200 : 150}
+          height={isHead ? 200 : 150}
           className="rounded-full border-4 border-primary-500 shadow-lg"
         />
       </div>
       <h3 className="text-lg font-semibold text-gray-800">{member.name}</h3>
       {/* {!isHovered && (<p className="text-sm text-gray-600">{member.role}</p>)} */}
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center my-2">
         <AnimatePresence>
           {isHovered ? (
             <motion.div
@@ -161,9 +162,9 @@ const TeamMemberCard: React.FC<{
             >
               <SocialLinks social={member.social} />
             </motion.div>
-          ): (<p className="text-sm text-gray-600">{member.role}</p>)}
-
-
+          ) : (
+            <p className="text-sm text-gray-600">{member.role}</p>
+          )}
         </AnimatePresence>
       </div>
 
@@ -172,23 +173,61 @@ const TeamMemberCard: React.FC<{
   );
 };
 
-export default function TeamStructure() {
+const focusAreas = ["faculty", "student"];
+
+export default function TeamStructure({ teamData }: TeamDataProps) {
+  const [activeTab, setActiveTab] = useState(focusAreas[0]);
+  const [selectedTeam, setSelectedTeam] = useState(teamData.faculty);
+
+  function onTabSelect(area: string){
+    setActiveTab(area);
+    if(activeTab === "student"){
+      setSelectedTeam(teamData.students)
+    }
+    else{
+      setSelectedTeam(teamData.faculty)
+    }
+  }
+
   return (
-    <section className="bg-gradient-to-br from-primary-50 to-primary-100 py-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-extrabold text-primary-900 text-center mb-12">
-          Our Team
-        </h2>
-        <div className="flex flex-col items-center">
-          <TeamMemberCard member={teamStructure.president} isPresident={true} />
-          <div className="w-px h-16 bg-gray-300 my-8"></div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
-            {teamStructure.members.map((member) => (
-              <TeamMemberCard key={member.id} member={member} />
+    <div>
+      {/* Tabs */}
+      <div className="flex justify-center mb-8">
+        <div className="border-b border-gray-200">
+          <nav className="-mb-px flex space-x-8" aria-label="Tabs">
+            {focusAreas.map((area, key) => (
+              <button
+                key={key}
+                onClick={() => onTabSelect(area)}
+                className={`
+                      whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm
+                      ${
+                        activeTab === area
+                          ? "border-indigo-500 text-indigo-600"
+                          : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                      }
+                    `}
+                aria-current={activeTab === area ? "page" : undefined}
+              >
+                {area}
+              </button>
             ))}
-          </div>
+          </nav>
         </div>
       </div>
-    </section>
+      <section className="bg-gradient-to-br from-primary-50 to-primary-100 py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col items-center">
+            <TeamMemberCard member={teamData.head} isHead={true} />
+            <div className="w-px h-16 bg-gray-300 my-8"></div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
+              {selectedTeam.map((member) => (
+                <TeamMemberCard key={member.id} member={member} />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }

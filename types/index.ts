@@ -16,3 +16,26 @@ export interface StatCardProps {
   endNumber: number;
   label: string;
 }
+
+export interface TeamMemberProps {
+  id: number,           
+  name: string,
+  role: string,
+  image: any,
+  social: {
+    linkedin?: string,
+    instagram?: string,
+    facebook?: string,
+  }
+}
+
+export interface TeamProfileProps {
+  year: string,
+  head: TeamMemberProps,
+  faculty: TeamMemberProps[],  
+  students: TeamMemberProps[]  
+}
+
+export interface TeamDataProps{
+  teamData: TeamProfileProps
+}
