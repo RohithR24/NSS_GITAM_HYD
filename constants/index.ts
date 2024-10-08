@@ -269,10 +269,7 @@ export const teamStructure = [
   }
 ];
 
-
-
 // FocusArea interface declaration for clarity
-
 export const initiativeFocusAreas: InitiativeFocusArea[] = [
   {
     id: "education",
@@ -310,4 +307,10 @@ export const initiativeFocusAreas: InitiativeFocusArea[] = [
       { image: "/placeholder.svg?height=300&width=400", caption: "Elderly care initiative" },
     ],
   },
+];
+
+
+export const teamTabTitles = [
+  { id: "faculty", name: "Faculty Team" },
+  { id: "student", name: "Student Team" },
 ];
