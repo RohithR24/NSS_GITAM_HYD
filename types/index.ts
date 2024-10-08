@@ -57,8 +57,12 @@ export interface Team {
   description: string;
 }
 
+export interface TabTitleProps{
+  id: string,
+  name: string
+}
 export interface TabsProps {
-  focusAreas: string[];
+  title: TabTitleProps[];
   activeTab: string;
   onTabSelect: (area: string) => void;
 }
