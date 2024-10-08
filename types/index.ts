@@ -76,3 +76,12 @@ export interface InitiativeProps {
   name: string;
   initiatives: InitiativeCardProps[];
 }
+
+export interface InitiativeFocusArea {
+  id: string;
+  name: string;
+  initiatives: {
+    image: string;
+    caption: string;
+  }[];
+}
