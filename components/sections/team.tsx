@@ -18,8 +18,8 @@ export default function Team() {
               key={team.year}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                 selectedTeam.year === team.year
-                  ? 'bg-primary text-primary-foreground'
-                  : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
+                  ? 'bg-blue-600 text-primary-foreground shadow-xl border-b-2 border-red-500'
+                  : 'bg-secondary text-secondary-foreground hover:border-b-2  hover:border-red-500'
               }`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
