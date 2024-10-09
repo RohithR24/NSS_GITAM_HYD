@@ -27,15 +27,15 @@ export default function TeamStructure({ teamData }: TeamDataProps) {
             {/* Head Member Card */}
             {activeTab === "faculty" && (
               <div className="flex flex-col items-center justify-center">
-                <TeamMemberCard member={teamData.head} isHead />
+                <TeamMemberCard member={teamData.head} isHead activeTab={activeTab}/>
                 <div className="w-px h-16 bg-gray-300 my-8"></div>
               </div>
             )}
-
+ 
             {/* Selected Team Members */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
               {selectedTeam.map((member) => (
-                <TeamMemberCard key={member.id} member={member} />
+                <TeamMemberCard key={member.id} member={member} activeTab = {activeTab}/>
               ))}
             </div>
           </div>

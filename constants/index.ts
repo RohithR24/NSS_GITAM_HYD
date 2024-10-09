@@ -88,7 +88,7 @@ export const teamStructure = [
       {
         id: 2,
         name: "Faculty 1",
-        role: "Program Co-Ordinator",
+        role: "Team Member",
         image: Avatar,
         social: {
           linkedin: "https://linkedin.com/in/alicejohnson",
@@ -98,7 +98,7 @@ export const teamStructure = [
       {
         id: 3,
         name: "Faculty 2",
-        role: "Program Co-Ordinator",
+        role: "Team Member",
         image: Avatar,
         social: {
           linkedin: "https://linkedin.com/in/bobsmith",
@@ -108,7 +108,7 @@ export const teamStructure = [
       {
         id: 4,
         name: "Faculty 3",
-        role: "Program Co-Ordinator",
+        role: "Team Member",
         image: Avatar,
         social: {
           instagram: "https://instagram.com/carolwilliams",
@@ -118,7 +118,7 @@ export const teamStructure = [
       {
         id: 5,
         name: "Faculty 4",
-        role: "Program Co-Ordinator",
+        role: "Team Member",
         image: Avatar,
         social: {
           linkedin: "https://linkedin.com/in/davidbrown",
@@ -131,7 +131,7 @@ export const teamStructure = [
       {
         id: 2,
         name: "Student 1",
-        role: "Program Co-Ordinator",
+        role: "Team Member",
         image: Avatar,
         social: {
           linkedin: "https://linkedin.com/in/alicejohnson",
@@ -141,7 +141,7 @@ export const teamStructure = [
       {
         id: 3,
         name: "Student 2",
-        role: "Program Co-Ordinator",
+        role: "Team Member",
         image: Avatar,
         social: {
           linkedin: "https://linkedin.com/in/bobsmith",
@@ -151,7 +151,7 @@ export const teamStructure = [
       {
         id: 4,
         name: "Student 3",
-        role: "Program Co-Ordinator",
+        role: "Team Member",
         image: Avatar,
         social: {
           instagram: "https://instagram.com/carolwilliams",
@@ -161,7 +161,7 @@ export const teamStructure = [
       {
         id: 5,
         name: "Student 4",
-        role: "Program Co-Ordinator",
+        role: "Team Member",
         image: Avatar,
         social: {
           linkedin: "https://linkedin.com/in/davidbrown",
@@ -173,7 +173,7 @@ export const teamStructure = [
     head: {
       id: 1,
       name: "Dr. P.V Nagendra Kumar ",
-      role: "NSS Co-Ordinator",
+      role: "Program Co-Ordinator",
       image: Coordinator,
       social: {
         linkedin: "https://linkedin.com/in/johndoe",
@@ -185,7 +185,7 @@ export const teamStructure = [
       {
         id: 2,
         name: "Faculty 1",
-        role: "Program Co-Ordinator",
+        role: "Team Member",
         image: Avatar,
         social: {
           linkedin: "https://linkedin.com/in/alicejohnson",
@@ -195,7 +195,7 @@ export const teamStructure = [
       {
         id: 3,
         name: "Faculty 2",
-        role: "Program Co-Ordinator",
+        role: "Team Member",
         image: Avatar,
         social: {
           linkedin: "https://linkedin.com/in/bobsmith",
@@ -205,7 +205,7 @@ export const teamStructure = [
       {
         id: 4,
         name: "Faculty 3",
-        role: "Program Co-Ordinator",
+        role: "Team Member",
         image: Avatar,
         social: {
           instagram: "https://instagram.com/carolwilliams",
@@ -215,7 +215,7 @@ export const teamStructure = [
       {
         id: 5,
         name: "Faculty 4",
-        role: "Program Co-Ordinator",
+        role: "Team Member",
         image: Avatar,
         social: {
           linkedin: "https://linkedin.com/in/davidbrown",
@@ -228,7 +228,7 @@ export const teamStructure = [
       {
         id: 2,
         name: "Charan",
-        role: "Program Co-Ordinator",
+        role: "Team Member",
         image: Avatar,
         social: {
           linkedin: "https://linkedin.com/in/alicejohnson",
@@ -238,7 +238,7 @@ export const teamStructure = [
       {
         id: 3,
         name: "Rohith",
-        role: "Program Co-Ordinator",
+        role: "Team Member",
         image: Avatar,
         social: {
           linkedin: "https://linkedin.com/in/bobsmith",
@@ -248,7 +248,7 @@ export const teamStructure = [
       {
         id: 4,
         name: "Vidwan",
-        role: "Program Co-Ordinator",
+        role: "Team Member",
         image: Avatar,
         social: {
           instagram: "https://instagram.com/carolwilliams",
@@ -258,13 +258,172 @@ export const teamStructure = [
       {
         id: 5,
         name: "Prathyusha",
-        role: "Program Co-Ordinator",
+        role: "Team Member",
         image: Avatar,
         social: {
           linkedin: "https://linkedin.com/in/davidbrown",
           instagram: "https://instagram.com/davidbrown",
         },
       },
+      {
+        id: 2,
+        name: "Charan",
+        role: "Team Member",
+        image: Avatar,
+        social: {
+          linkedin: "https://linkedin.com/in/alicejohnson",
+          instagram: "https://instagram.com/alicejohnson",
+        },
+      },
+      {
+        id: 3,
+        name: "Rohith",
+        role: "Team Member",
+        image: Avatar,
+        social: {
+          linkedin: "https://linkedin.com/in/bobsmith",
+          facebook: "https://facebook.com/bobsmith",
+        },
+      },
+      {
+        id: 4,
+        name: "Vidwan",
+        role: "Team Member",
+        image: Avatar,
+        social: {
+          instagram: "https://instagram.com/carolwilliams",
+          facebook: "https://facebook.com/carolwilliams",
+        },
+      },
+      {
+        id: 5,
+        name: "Prathyusha",
+        role: "Team Member",
+        image: Avatar,
+        social: {
+          linkedin: "https://linkedin.com/in/davidbrown",
+          instagram: "https://instagram.com/davidbrown",
+        },
+      },
+      {
+        id: 2,
+        name: "Charan",
+        role: "Team Member",
+        image: Avatar,
+        social: {
+          linkedin: "https://linkedin.com/in/alicejohnson",
+          instagram: "https://instagram.com/alicejohnson",
+        },
+      },
+      {
+        id: 3,
+        name: "Rohith",
+        role: "Team Member",
+        image: Avatar,
+        social: {
+          linkedin: "https://linkedin.com/in/bobsmith",
+          facebook: "https://facebook.com/bobsmith",
+        },
+      },
+      {
+        id: 4,
+        name: "Vidwan",
+        role: "Team Member",
+        image: Avatar,
+        social: {
+          instagram: "https://instagram.com/carolwilliams",
+          facebook: "https://facebook.com/carolwilliams",
+        },
+      },
+      {
+        id: 5,
+        name: "Prathyusha",
+        role: "Team Member",
+        image: Avatar,
+        social: {
+          linkedin: "https://linkedin.com/in/davidbrown",
+          instagram: "https://instagram.com/davidbrown",
+        },
+      },{
+        id: 2,
+        name: "Charan",
+        role: "Team Member",
+        image: Avatar,
+        social: {
+          linkedin: "https://linkedin.com/in/alicejohnson",
+          instagram: "https://instagram.com/alicejohnson",
+        },
+      },
+      {
+        id: 3,
+        name: "Rohith",
+        role: "Team Member",
+        image: Avatar,
+        social: {
+          linkedin: "https://linkedin.com/in/bobsmith",
+          facebook: "https://facebook.com/bobsmith",
+        },
+      },
+      {
+        id: 4,
+        name: "Vidwan",
+        role: "Team Member",
+        image: Avatar,
+        social: {
+          instagram: "https://instagram.com/carolwilliams",
+          facebook: "https://facebook.com/carolwilliams",
+        },
+      },
+      {
+        id: 5,
+        name: "Prathyusha",
+        role: "Team Member",
+        image: Avatar,
+        social: {
+          linkedin: "https://linkedin.com/in/davidbrown",
+          instagram: "https://instagram.com/davidbrown",
+        },
+      },
+      {
+        id: 2,
+        name: "Charan",
+        role: "Team Member",
+        image: Avatar,
+        social: {
+          linkedin: "https://linkedin.com/in/alicejohnson",
+          instagram: "https://instagram.com/alicejohnson",
+        },
+      },
+      {
+        id: 3,
+        name: "Rohith",
+        role: "Team Member",
+        image: Avatar,
+        social: {
+          linkedin: "https://linkedin.com/in/bobsmith",
+          facebook: "https://facebook.com/bobsmith",
+        },
+      },
+      {
+        id: 4,
+        name: "Vidwan",
+        role: "Team Member",
+        image: Avatar,
+        social: {
+          instagram: "https://instagram.com/carolwilliams",
+          facebook: "https://facebook.com/carolwilliams",
+        },
+      },
+      {
+        id: 5,
+        name: "Prathyusha",
+        role: "Team Member",
+        image: Avatar,
+        social: {
+          linkedin: "https://linkedin.com/in/davidbrown",
+          instagram: "https://instagram.com/davidbrown",
+        },
+      }
     ]
   }
 ];
