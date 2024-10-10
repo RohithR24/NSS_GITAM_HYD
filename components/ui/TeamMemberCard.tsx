@@ -55,12 +55,12 @@ export const TeamMemberCard: React.FC<{
       className="flex flex-col items-center"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      whileHover={{ scale: 1.10 }}
+      whileHover={{ scale: 1.1 }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       transition={{ duration: 0.3, delay: index * 0.1 }}
     >
-      <div className="relative w-32 h-32 mb-4">
+      <div className={`relative ${isHead ? "w-48 h-48" : "w-32 h-32"} mb-4`}>
         <Image
           src={member.image}
           alt={member.name}
