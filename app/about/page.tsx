@@ -2,6 +2,7 @@
 
 import React from "react";
 import { ChevronRight, Book, Heart, Leaf, Users } from "lucide-react";
+import { Button } from "@/app/components/ui/index"
 
 export default function about() {
   return (
@@ -102,9 +103,8 @@ export default function about() {
             Are you a student eager to make a difference? Do you want to develop
             leadership skills while serving your community?
           </p>
-          {/* <Button className="bg-[#FF0000] hover:bg-[#CC0000] text-white font-bold py-3 px-6 rounded-full text-lg shadow-lg hover:shadow-xl transition-all duration-300">
-            Become a Volunteer
-          </Button> */}
+          <Button title="Become a Volunteer" styles="bg-[#FF0000] hover:bg-[#CC0000] text-white font-bold py-3 px-6 rounded-full text-lg shadow-lg hover:shadow-xl transition-all duration-300" color={""} />
+            
         </section>
 
         <section className="bg-white shadow-lg rounded-lg p-8">

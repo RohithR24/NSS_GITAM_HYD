@@ -85,3 +85,8 @@ export interface InitiativeFocusArea {
     caption: string;
   }[];
 }
+
+export interface ButtonProps{
+  title: string;
+  styles: string;
+}
