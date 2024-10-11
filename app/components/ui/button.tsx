@@ -1,7 +1,7 @@
 import { ButtonProps } from '@/types';
 import React from 'react';
 
-export function Button({ title, styles }:ButtonProps ) {
+export default function Button({ title, styles }:ButtonProps ) {
   return (
     <button
       className={`
