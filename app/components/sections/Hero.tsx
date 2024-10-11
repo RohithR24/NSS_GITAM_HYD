@@ -1,5 +1,5 @@
 "use client";
-import { campus2, campus1, hero, SpecialCamp } from "../../public/images/index";
+import { campus2, campus1, hero, SpecialCamp } from "../../../public/images/index";
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";

@@ -1,11 +1,11 @@
-import { StatCard } from "@/components/ui/index";
+import { StatCard } from "@/app/components/ui/index";
 import { SocialService } from "@/public/images";
 import {
   blood,
   bookdonation,
   volunteer,
   collaboration,
-} from "../../public/icons/index";
+} from "../../../public/icons/index";
 export default function Statistics() {
   return (
     <div className="bg-gray-100 py-16">

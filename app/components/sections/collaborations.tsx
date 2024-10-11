@@ -1,17 +1,11 @@
-// import React from "react";
-// import Image from "next/image";
-
-
-
-
 "use client"
 
 import React from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import Image from 'next/image'
-import { campus2, campus1, hero } from "../../public/images/index";
-import { TJIYLC, NtrTrust, LionsClub, GHMC1, HarithHaramLogo  } from "../../public/images/index";
+import { campus2, campus1, hero } from "../../../public/images/index";
+import { TJIYLC, NtrTrust, LionsClub, GHMC1, HarithHaramLogo  } from "../../../public/images/index";
 interface CollaboratorProps {
   src: any
   alt: string

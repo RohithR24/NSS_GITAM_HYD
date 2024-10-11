@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { TeamDataProps } from "@/types";
-import { Tabs, TeamMemberCard } from "@/components/ui/index";
+import { Tabs, TeamMemberCard } from "@/app/components/ui/index";
 import { teamTabTitles } from "@/constants";
 import { AnimatePresence, motion } from "framer-motion";
 

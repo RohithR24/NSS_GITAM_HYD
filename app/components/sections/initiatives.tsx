@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Gallery, Tabs } from "@/components/ui/index";
+import { Gallery, Tabs } from "@/app/components/ui/index";
 import { initiativeFocusAreas } from "@/constants";
 
 export default function Initiatives() {

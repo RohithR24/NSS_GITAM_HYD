@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { teamStructure } from "@/constants/index";
-import { TeamStructure } from "@/components/ui/index";
+import { TeamStructure } from "@/app/components/ui/index";
 
 export default function Team() {
   const [selectedTeam, setSelectedTeam] = useState(teamStructure[0]);
