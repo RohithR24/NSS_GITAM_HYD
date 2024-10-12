@@ -8,7 +8,6 @@ import { NavBar } from "./index";
 export default function Hero() {
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <NavBar />
       {/* Hero Section */}
       <div className="flex-grow relative flex flex-col md:flex-row items-center justify-between bg-white">
         {/* Content Section */}
