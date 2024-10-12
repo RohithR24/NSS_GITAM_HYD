@@ -1,6 +1,6 @@
 import Collaborations from "./collaborations";
 import Hero from "./Hero";
-import Initiatives from "./initiatives";
+import Initiatives from "./Initiatives";
 import NavBar from "./NavBar";
 import Statistics from "./Statistics";
 import Team from "./Team";

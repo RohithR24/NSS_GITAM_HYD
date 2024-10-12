@@ -25,7 +25,7 @@ const NavBar = () => {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   return (
-    <nav className="relative bg-blue-700 shadow-md">
+    <nav className="sticky bg-blue-700 shadow-md ">
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex">
