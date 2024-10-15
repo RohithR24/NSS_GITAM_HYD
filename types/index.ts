@@ -90,3 +90,17 @@ export interface ButtonProps{
   title: string;
   styles: string;
 }
+
+export interface EventCardProps {
+  id: string;
+  title: string;
+  date: string;
+  time: string;
+  location: string;
+  description: string;
+  teaser: string;
+  poster: string | any;
+  objectives: string[];
+  registrationLink: string;
+  isPast: boolean;
+}
