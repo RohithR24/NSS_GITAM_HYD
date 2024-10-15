@@ -16,6 +16,9 @@ import NSSLogo from './NSS-Symbol.jpeg'
 import SpecialCamp from './Special-Camp.JPG'
 import SocialService from './social-services.png'
 import GITAM from './gitam.jpeg'
+import BloodDonation from './blood-donation-drive.png'
+import CommunityCleanupDrive from './community-cleanup-drive.png'
+
 export {
     hero,
     campus1,
@@ -32,5 +35,7 @@ export {
     NSSLogo,
     SpecialCamp,
     SocialService,
-    GITAM
+    GITAM,
+    BloodDonation,
+    CommunityCleanupDrive
 }
