@@ -80,7 +80,9 @@ const Footer = () => {
             <div className="flex items-center mb-2">
               <MapPin size={16} className="mr-2 flex-shrink-0" />
               <p className="text-sm">
-                GITAM University, Rudraram, Patancheru Mandal, Telangana, India
+                GITAM University, Rudraram, <br/>
+                Patancheru Mandal, Telangana, <br/>
+                 India
                 - 502329
               </p>
             </div>
