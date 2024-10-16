@@ -9,7 +9,7 @@ import {
   where,
   DocumentData,
 } from "firebase/firestore";
-import {TeamProps} from '@/types/index'
+import {TeamMemberProps, TeamProps} from '@/types/index'
 
 // Fetches the Teams with members
 /* Read from firebase */
@@ -91,6 +91,7 @@ export const fetchAllTeams = async () => {
       head: {
         id: 0,
         name: '',
+        memberType: '',
         role: '',
         image: '',
         social: {}
@@ -120,5 +121,23 @@ export const createTeamWithCustomID = async (teamId: string, teamData: any) => {
   } catch (error) {
     console.error("Error creating team:", error);
     return null;
+  }
+};
+
+
+//Save the member
+
+// Save the member to Firestore
+export const saveMember = async (teamId : number, profileData: TeamMemberProps) => {
+  try {
+    if (teamId) {
+      // If memberId is provided, update the existing document
+      const profileRef = doc(db, 'profile', teamId.toString());
+      await setDoc(profileRef, profileData, { merge: true });
+      console.log('Member updated successfully');
+    } 
+
+  } catch (error) {
+    console.error('Error saving member:', error);
   }
 };

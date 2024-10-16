@@ -15,17 +15,18 @@ export interface StatCardProps {
   label: string;
 }
 
-export interface TeamMemberProps {
-  id: number;
-  name: string;
-  role: string;
-  image: any;
-  social: {
-    linkedin?: string;
-    instagram?: string;
-    facebook?: string;
-  };
-}
+// export interface TeamMemberProps {
+//   teamId: number;
+//   name: string;
+//   role: string;
+//   memberType: string;
+//   image: any;
+//   social: {
+//     linkedin?: string;
+//     instagram?: string;
+//     facebook?: string;
+//   };
+// }
 
 export interface TeamProfileProps {
   year: string;
@@ -38,10 +39,11 @@ export interface TeamDataProps {
   teamData: TeamProfileProps;
 }
 
-export interface TeamMember {
+export interface TeamMemberProps {
   id: number;
   name: string;
   role: string;
+  memberType: string;
   image: string | any;
   social: {
     linkedin?: string;
@@ -108,7 +110,7 @@ export interface EventCardProps {
 export interface TeamProps {
   id: number | any
   name: string
-  head: TeamMember
-  faculty: TeamMember[]
-  students: TeamMember[]
+  head: TeamMemberProps
+  faculty: TeamMemberProps[]
+  students: TeamMemberProps[]
 }
