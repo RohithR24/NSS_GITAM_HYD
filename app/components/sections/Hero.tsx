@@ -3,29 +3,16 @@ import {  SpecialCamp } from "../../../public/images/index";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "@/config/firebase";
+import {fetchTeamWithMembers} from '@/api/index'
 
 export default function Hero() {
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const querySnapshot = await getDocs(collection(db, "users"));
-  //       const documents = querySnapshot.docs.map(doc => ({
-  //         id: doc.id,
-  //         ...doc.data()
-  //       }));
-  //       console.log('Rohith', documents);
-  //       //setData(documents);
-  //     } catch (error) {
-        
-  //       console.error("Error fetching data: ", error);
-  //     }
-  //   };
 
-  //   fetchData();
-  // }, []);
+  useEffect(()=>{
+    fetchTeamWithMembers('sw40pM6GUa4GvnHWJGGH').then((teamData) => {
+      console.log('Fetched Team Data:', teamData);
+    });
+  }, [])
 
 
   return (
@@ -76,3 +63,6 @@ export default function Hero() {
     </div>
   );
 }
+
+
+

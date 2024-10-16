@@ -104,3 +104,11 @@ export interface EventCardProps {
   registrationLink: string;
   isPast: boolean;
 }
+
+export interface TeamProps {
+  id: number | any
+  name: string
+  head: TeamMember
+  faculty: TeamMember[]
+  students: TeamMember[]
+}

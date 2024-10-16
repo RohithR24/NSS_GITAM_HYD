@@ -12,8 +12,10 @@ const firebaseConfig = {
   measurementId: "G-9JGCWL8V4P"
 };
 
-// Initialize Firebase only if no apps have been initialized
-const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+// Initialize Firestore
 const db = getFirestore(app);
 
 export { db };
