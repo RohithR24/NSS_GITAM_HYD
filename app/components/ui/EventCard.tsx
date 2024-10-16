@@ -118,7 +118,7 @@ export const EventCard: React.FC<{ event: EventCardProps }> = ({ event }) => {
                 </button>
               )}
             </div>
-            <p className="text-blue-900">
+            <p className="text-blue-900 text-justify">
               {expanded ? event.description : event.teaser}
             </p>
           </div>
