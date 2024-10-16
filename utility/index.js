@@ -1,9 +1,9 @@
 export function parseEventDate(dateString, timeString) {
   // Split date and time separately for safer parsing
-  const [year, month, day] = event.date.split("-").map(Number); // Split the date string (YYYY-MM-DD)
+  const [year, month, day] = dateString.split("-").map(Number); // Split the date string (YYYY-MM-DD)
 
   // Convert 12-hour time format (with AM/PM) to 24-hour format
-  const [time, modifier] = event.time.split(" "); // Split the time and AM/PM
+  const [time, modifier] = timeString.split(" "); // Split the time and AM/PM
   let [hours, minutes] = time.split(":").map(Number);
 
   if (modifier === "PM" && hours !== 12) {

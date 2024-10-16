@@ -65,7 +65,7 @@ export const EventCard: React.FC<{ event: EventCardProps }> = ({ event }) => {
             <div className="flex items-center text-blue-600 mb-2">
               <div className="flex items-center bg-blue-100 p-2 rounded-lg shadow-sm border border-blue-300 mb-4">
                 <Calendar className="w-5 h-5 text-blue-600 mr-3" />
-                <span className="text-blue-900 font-medium text-lg">
+                <span className="text-blue-900 font-medium text-lg sm:text-md">
                   {new Date(event.date).toLocaleDateString("en-US", {
                     weekday: "long",
                     year: "numeric",
@@ -111,7 +111,7 @@ export const EventCard: React.FC<{ event: EventCardProps }> = ({ event }) => {
               )}
               {!event.isPast && (
                 <button
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full transition-colors"
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full transition-colors md:hidden"
                   onClick={() => window.open(event.registrationLink, "_blank")}
                 >
                   Register Now
