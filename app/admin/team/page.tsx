@@ -1,32 +1,66 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Plus, Edit, Trash, ChevronDown, ChevronUp, X } from "lucide-react";
-import { createTeamWithCustomID, fetchAllTeams, saveMember } from "@/api/index";
+import {
+  createTeamWithCustomID,
+  fetchAllTeams,
+  saveMember,
+  uploadImageToFirebase,
+} from "@/api/index";
 import { TeamProps, TeamMemberProps } from "@/types/index";
-
 
 const defaultMember: TeamMemberProps = {
   id: Date.now(),
-  teamId : 0,
+  teamId: 0,
   name: "",
   role: "",
   memberType: "",
-  image: "/placeholder.svg",
+  image: File,
   social: {},
 };
 
 const AdminDashboard: React.FC = () => {
   const [teams, setTeams] = useState<TeamProps[]>([]);
-  const [editingMember, setEditingMember] = useState<TeamMemberProps | null>(null);
+  const [editingMember, setEditingMember] = useState<TeamMemberProps | null>(
+    null
+  );
   const [expandedTeam, setExpandedTeam] = useState<number | null>(null);
   const [isCreatingTeam, setIsCreatingTeam] = useState(false);
   const [newTeamName, setNewTeamName] = useState("");
+  const [file, setFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState<boolean>(false);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      setFile(event.target.files[0]);
+    }
+  };
+
+  const handleUpload = async () => {
+    if (!file) {
+      alert("Please select a file first");
+      return;
+    }
+    setUploading(true);
+    try {
+      const teamId = 123; // Replace with the actual team ID
+      const memberId = 123; // Replace with the actual member ID
+      const response = await uploadImageToFirebase(file, teamId, memberId);
+      
+      alert("File uploaded successfully!");
+    } catch (error) {
+      alert("Failed to upload file");
+      console.error("Error uploading file:", error);
+    } finally {
+      setUploading(false);
+    }
+  };
 
   useEffect(() => {
     const fetchTeams = async () => {
       try {
         const fetchedTeams = await fetchAllTeams();
-        console.log('Test', fetchedTeams);
+        console.log("Test", fetchedTeams);
         setTeams(fetchedTeams); // Update state with fetched teams
       } catch (error) {
         console.error("Error in fetching teams:", error);
@@ -69,7 +103,7 @@ const AdminDashboard: React.FC = () => {
           ...defaultMember,
           id: Date.now(),
           role: category === "faculty" ? "Faculty Member" : "Student Member",
-          memberType: category === "faculty"? "faculty": "student"
+          memberType: category === "faculty" ? "faculty" : "student",
         };
         return { ...team, [category]: [...team[category], newMember] };
       }
@@ -112,14 +146,14 @@ const AdminDashboard: React.FC = () => {
 
   const handleSaveMember = (updatedMember: TeamMemberProps) => {
     const updatedTeams = teams.map((team) => {
-      console.log('updatedMember ', updatedMember)
+      console.log("updatedMember ", updatedMember);
       if (expandedTeam === team.id) {
         // Set the teamId for the updated member
         updatedMember.teamId = team.id;
-        // Generate a unique id for the new member if it doesn't have one  
+        // Generate a unique id for the new member if it doesn't have one
         // Save the updated member to Firestore
         saveMember(updatedMember.id, updatedMember);
-  
+
         // Update the head, faculty, or students array
         let updatedHead = team.head;
         let updatedFaculty = team.faculty.map((m) =>
@@ -128,21 +162,27 @@ const AdminDashboard: React.FC = () => {
         let updatedStudents = team.students.map((m) =>
           m.id === updatedMember.id ? updatedMember : m
         );
-  
+
         // Check if the updated member is the head
         if (team.head && team.head.id === updatedMember.id) {
           updatedHead = updatedMember;
         }
-  
+
         // If the updated member is not found in faculty or students, add it to the appropriate array
-        if (!updatedFaculty.some((m) => m.id === updatedMember.id) && updatedMember.role === 'faculty') {
+        if (
+          !updatedFaculty.some((m) => m.id === updatedMember.id) &&
+          updatedMember.role === "faculty"
+        ) {
           updatedFaculty = [...updatedFaculty, updatedMember];
         }
-  
-        if (!updatedStudents.some((m) => m.id === updatedMember.id) && updatedMember.role === 'student') {
+
+        if (
+          !updatedStudents.some((m) => m.id === updatedMember.id) &&
+          updatedMember.role === "student"
+        ) {
           updatedStudents = [...updatedStudents, updatedMember];
         }
-  
+
         // Return the updated team object with the modified head, faculty, and students
         return {
           ...team,
@@ -151,17 +191,16 @@ const AdminDashboard: React.FC = () => {
           students: updatedStudents,
         };
       }
-  
+
       // If this is not the expanded team, return it unchanged
       return team;
     });
-  
+
     // Update the state with the modified teams array
     setTeams(updatedTeams);
     // Clear the editing member state
     setEditingMember(null);
   };
-  
 
   return (
     <div className="min-h-screen bg-gray-100 p-4">
@@ -375,8 +414,14 @@ const AdminDashboard: React.FC = () => {
               className="w-full p-2 border rounded-md mb-2"
               placeholder="Member Type"
             />
+
+            {/* <input type="file" onChange={handleFileChange} />
+            <button onClick={handleUpload} disabled={uploading}>
+              {uploading ? "Uploading..." : "Upload"}
+            </button> */}
+
             <input
-              type="text"
+              type="file"
               value={editingMember.image}
               onChange={(e) =>
                 setEditingMember({ ...editingMember, image: e.target.value })

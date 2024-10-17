@@ -45,7 +45,7 @@ export interface TeamMemberProps {
   name: string;
   role: string;
   memberType: string;
-  image: string | any;
+  image: File | any;
   social: {
     linkedin?: string;
     instagram?: string;

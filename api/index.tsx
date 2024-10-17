@@ -11,6 +11,12 @@ import {
   DocumentData,
 } from "firebase/firestore";
 import { TeamMemberProps, TeamProps } from "@/types/index";
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
 
 // Fetches the Teams with members
 /* Read from firebase */
@@ -97,7 +103,7 @@ export const fetchAllTeams = async () => {
         name: "",
         memberType: "",
         role: "",
-        image: "",
+        image: File,
         social: {},
       }, // Provide a default empty TeamMember object for 'head'
       faculty: [], // Initialize 'faculty' as an empty array
@@ -150,7 +156,12 @@ export const createTeamWithCustomID = async (teamId: string, teamData: any) => {
 // Save the member to Firestore
 export const saveMember = async (id: number, profileData: TeamMemberProps) => {
   try {
-    console.log();
+    profileData.image = uploadImageToFirebase(
+      profileData.image,
+      profileData.teamId,
+      profileData.id
+    );
+
     // Reference to the document in the "profile" collection
     const profileRef = doc(db, "profile", id.toString());
 
@@ -170,5 +181,49 @@ export const saveMember = async (id: number, profileData: TeamMemberProps) => {
     }
   } catch (error) {
     console.error("Error saving member:", error);
+  }
+};
+
+// Function to upload an image
+export const uploadImageToFirebase = async (
+  file: File,
+  teamId: number,
+  memberId: number
+) => {
+  try {
+    // Get a reference to Firebase Storage
+    console.log("file", file);
+    const storage = getStorage();
+    const storageRef = ref(
+      storage,
+      `images/${teamId}/${memberId}/${file.name}`
+    );
+
+    // Upload the file
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    // Monitor the upload process
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log(`Upload is ${progress}% done`);
+      },
+      (error) => {
+        console.error("Upload failed:", error);
+      },
+      async () => {
+        // Once the upload is complete, get the download URL
+        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+        // Make sure to use the resolved downloadURL, not a Promise
+        console.log(downloadURL);
+        console.log("Image URL successfully saved in Firestore");
+        return downloadURL;
+      }
+    );
+  } catch (error) {
+    console.error("Error uploading image:", error);
+    throw error;
   }
 };

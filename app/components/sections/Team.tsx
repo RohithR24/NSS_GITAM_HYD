@@ -44,7 +44,7 @@ export default function Team() {
           transition={{ duration: 0.3 }}
           className="bg-card text-card-foreground p-6 rounded-lg shadow-lg"
         >
-          <TeamStructure teamData={selectedTeam} />
+          {/* <TeamStructure teamData={selectedTeam} /> */}
         </motion.div>
       </div>
     </div>
