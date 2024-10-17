@@ -2,10 +2,10 @@
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { Linkedin, Instagram, Facebook } from "lucide-react";
-import { TeamMember } from "@/types";
+import { TeamMemberProps } from "@/types";
 import { useState } from "react";
 
-const SocialLinks: React.FC<{ social: TeamMember["social"] }> = ({
+const SocialLinks: React.FC<{ social: TeamMemberProps["social"] }> = ({
   social,
 }) => (
   <div className="flex items-center justify-center space-x-2 bg-color-white py-1">
@@ -43,7 +43,7 @@ const SocialLinks: React.FC<{ social: TeamMember["social"] }> = ({
 );
 
 export const TeamMemberCard: React.FC<{
-  member: TeamMember;
+  member: TeamMemberProps;
   isHead?: boolean;
   activeTab: string;
   index: number;
