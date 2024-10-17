@@ -36,26 +36,6 @@ const AdminDashboard: React.FC = () => {
     }
   };
 
-  const handleUpload = async () => {
-    if (!file) {
-      alert("Please select a file first");
-      return;
-    }
-    setUploading(true);
-    try {
-      const teamId = 123; // Replace with the actual team ID
-      const memberId = 123; // Replace with the actual member ID
-      const response = await uploadImageToFirebase(file, teamId, memberId);
-      
-      alert("File uploaded successfully!");
-    } catch (error) {
-      alert("Failed to upload file");
-      console.error("Error uploading file:", error);
-    } finally {
-      setUploading(false);
-    }
-  };
-
   useEffect(() => {
     const fetchTeams = async () => {
       try {
@@ -408,7 +388,7 @@ const AdminDashboard: React.FC = () => {
               onChange={(e) =>
                 setEditingMember({
                   ...editingMember,
-                  memberType: e.target.value,
+                  image: e.target.value,
                 })
               }
               className="w-full p-2 border rounded-md mb-2"
@@ -422,10 +402,15 @@ const AdminDashboard: React.FC = () => {
 
             <input
               type="file"
-              value={editingMember.image}
-              onChange={(e) =>
-                setEditingMember({ ...editingMember, image: e.target.value })
-              }
+              onChange={(e) => {
+                const target = e.target as HTMLInputElement;
+                if (target && target.files) {
+                  setEditingMember({
+                    ...editingMember,
+                    image: target.files[0],
+                  });
+                }
+              }}
               className="w-full p-2 border rounded-md mb-2"
               placeholder="Image URL"
             />

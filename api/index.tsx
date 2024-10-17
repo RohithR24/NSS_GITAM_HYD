@@ -16,6 +16,7 @@ import {
   ref,
   uploadBytesResumable,
   getDownloadURL,
+  uploadBytes,
 } from "firebase/storage";
 
 // Fetches the Teams with members
@@ -156,12 +157,13 @@ export const createTeamWithCustomID = async (teamId: string, teamData: any) => {
 // Save the member to Firestore
 export const saveMember = async (id: number, profileData: TeamMemberProps) => {
   try {
-    profileData.image = uploadImageToFirebase(
+    profileData.image = await uploadImageToFirebase(
       profileData.image,
       profileData.teamId,
       profileData.id
     );
 
+    console.log("profileData", profileData);
     // Reference to the document in the "profile" collection
     const profileRef = doc(db, "profile", id.toString());
 
@@ -184,44 +186,41 @@ export const saveMember = async (id: number, profileData: TeamMemberProps) => {
   }
 };
 
-// Function to upload an image
 export const uploadImageToFirebase = async (
   file: File,
   teamId: number,
   memberId: number
-) => {
+): Promise<string> => {
   try {
     // Get a reference to Firebase Storage
     console.log("file", file);
     const storage = getStorage();
-    const storageRef = ref(
-      storage,
-      `images/${teamId}/${memberId}/${file.name}`
-    );
+    const storageRef = ref(storage, `images/${file.name}`);
 
     // Upload the file
     const uploadTask = uploadBytesResumable(storageRef, file);
 
-    // Monitor the upload process
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log(`Upload is ${progress}% done`);
-      },
-      (error) => {
-        console.error("Upload failed:", error);
-      },
-      async () => {
-        // Once the upload is complete, get the download URL
-        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-        // Make sure to use the resolved downloadURL, not a Promise
-        console.log(downloadURL);
-        console.log("Image URL successfully saved in Firestore");
-        return downloadURL;
-      }
-    );
+    // Return a Promise that resolves with the download URL
+    return new Promise((resolve, reject) => {
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log(`Upload is ${progress}% done`);
+        },
+        (error) => {
+          console.error("Upload failed:", error);
+          reject(error); // Reject the Promise in case of an error
+        },
+        async () => {
+          // Once the upload is complete, get the download URL
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          console.log("Image URL successfully uploaded:", downloadURL);
+          resolve(downloadURL); // Resolve the Promise with the download URL
+        }
+      );
+    });
   } catch (error) {
     console.error("Error uploading image:", error);
     throw error;
