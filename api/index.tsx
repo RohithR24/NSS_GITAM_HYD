@@ -9,6 +9,7 @@ import {
   query,
   where,
   DocumentData,
+  deleteDoc,
 } from "firebase/firestore";
 import { TeamMemberProps, TeamProps } from "@/types/index";
 import {
@@ -224,5 +225,20 @@ export const uploadImageToFirebase = async (
   } catch (error) {
     console.error("Error uploading image:", error);
     throw error;
+  }
+};
+
+// Function to delete a profile by ID
+export const deleteProfileById = async (id: number) => {
+  try {
+    // Reference to the document in the "profile" collection
+    const profileRef = doc(db, "profile", id.toString());
+
+    //Delete the document
+    await deleteDoc(profileRef);
+
+    console.log(`Profile with ID ${id} deleted successfully`);
+  } catch (error) {
+    console.error("Error deleting profile", error);
   }
 };

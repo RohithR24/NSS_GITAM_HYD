@@ -6,6 +6,7 @@ import {
   fetchAllTeams,
   saveMember,
   uploadImageToFirebase,
+  deleteProfileById
 } from "@/api/index";
 import { TeamProps, TeamMemberProps } from "@/types/index";
 
@@ -101,6 +102,7 @@ const AdminDashboard: React.FC = () => {
     category: "head" | "faculty" | "students",
     memberId: number
   ) => {
+    deleteProfileById(memberId);
     const updatedTeams = teams.map((team) => {
       if (team.id === teamId) {
         if (category === "head") {
