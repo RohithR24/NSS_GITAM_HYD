@@ -2,25 +2,12 @@
 import React, { useEffect, useState } from "react";
 import { Plus, Edit, Trash, ChevronDown, ChevronUp, X } from "lucide-react";
 import { createTeamWithCustomID, fetchAllTeams, saveMember } from "@/api/index";
-import { TeamProps } from "@/types/index";
+import { TeamProps, TeamMemberProps } from "@/types/index";
 
-interface SocialLinks {
-  linkedin?: string;
-  instagram?: string;
-  facebook?: string;
-}
 
-interface TeamMember {
-  id: number;
-  memberType: string;
-  name: string;
-  role: string;
-  image: string;
-  social: SocialLinks;
-}
-
-const defaultMember: TeamMember = {
-  id: 0,
+const defaultMember: TeamMemberProps = {
+  id: Date.now(),
+  teamId : 0,
   name: "",
   role: "",
   memberType: "",
@@ -30,7 +17,7 @@ const defaultMember: TeamMember = {
 
 const AdminDashboard: React.FC = () => {
   const [teams, setTeams] = useState<TeamProps[]>([]);
-  const [editingMember, setEditingMember] = useState<TeamMember | null>(null);
+  const [editingMember, setEditingMember] = useState<TeamMemberProps | null>(null);
   const [expandedTeam, setExpandedTeam] = useState<number | null>(null);
   const [isCreatingTeam, setIsCreatingTeam] = useState(false);
   const [newTeamName, setNewTeamName] = useState("");
@@ -39,6 +26,7 @@ const AdminDashboard: React.FC = () => {
     const fetchTeams = async () => {
       try {
         const fetchedTeams = await fetchAllTeams();
+        console.log('Test', fetchedTeams);
         setTeams(fetchedTeams); // Update state with fetched teams
       } catch (error) {
         console.error("Error in fetching teams:", error);
@@ -55,6 +43,7 @@ const AdminDashboard: React.FC = () => {
     );
   };
 
+  //API Integrated
   const handleSubmitNewTeam = () => {
     createTeamWithCustomID(newTeamName, { name: newTeamName, id: Date.now() });
     const newTeam: TeamProps = {
@@ -76,10 +65,11 @@ const AdminDashboard: React.FC = () => {
   ) => {
     const updatedTeams = teams.map((team) => {
       if (team.id === teamId) {
-        const newMember: TeamMember = {
+        const newMember: TeamMemberProps = {
           ...defaultMember,
           id: Date.now(),
           role: category === "faculty" ? "Faculty Member" : "Student Member",
+          memberType: category === "faculty"? "faculty": "student"
         };
         return { ...team, [category]: [...team[category], newMember] };
       }
@@ -88,7 +78,7 @@ const AdminDashboard: React.FC = () => {
     setTeams(updatedTeams);
   };
 
-  const handleEditMember = (member: TeamMember) => {
+  const handleEditMember = (member: TeamMemberProps) => {
     setEditingMember(member);
   };
 
@@ -120,25 +110,58 @@ const AdminDashboard: React.FC = () => {
     setTeams(updatedTeams);
   };
 
-  const handleSaveMember = (updatedMember: TeamMember) => {
+  const handleSaveMember = (updatedMember: TeamMemberProps) => {
     const updatedTeams = teams.map((team) => {
-      if (team.head.id === updatedMember.id) {
-        saveMember(Date.now(), updatedMember)
-        return { ...team, head: updatedMember };
+      console.log('updatedMember ', updatedMember)
+      if (expandedTeam === team.id) {
+        // Set the teamId for the updated member
+        updatedMember.teamId = team.id;
+        // Generate a unique id for the new member if it doesn't have one  
+        // Save the updated member to Firestore
+        saveMember(updatedMember.id, updatedMember);
+  
+        // Update the head, faculty, or students array
+        let updatedHead = team.head;
+        let updatedFaculty = team.faculty.map((m) =>
+          m.id === updatedMember.id ? updatedMember : m
+        );
+        let updatedStudents = team.students.map((m) =>
+          m.id === updatedMember.id ? updatedMember : m
+        );
+  
+        // Check if the updated member is the head
+        if (team.head && team.head.id === updatedMember.id) {
+          updatedHead = updatedMember;
+        }
+  
+        // If the updated member is not found in faculty or students, add it to the appropriate array
+        if (!updatedFaculty.some((m) => m.id === updatedMember.id) && updatedMember.role === 'faculty') {
+          updatedFaculty = [...updatedFaculty, updatedMember];
+        }
+  
+        if (!updatedStudents.some((m) => m.id === updatedMember.id) && updatedMember.role === 'student') {
+          updatedStudents = [...updatedStudents, updatedMember];
+        }
+  
+        // Return the updated team object with the modified head, faculty, and students
+        return {
+          ...team,
+          head: updatedHead,
+          faculty: updatedFaculty,
+          students: updatedStudents,
+        };
       }
-      return {
-        ...team,
-        faculty: team.faculty.map((m) =>
-          m.id === updatedMember.id ? updatedMember : m
-        ),
-        students: team.students.map((m) =>
-          m.id === updatedMember.id ? updatedMember : m
-        ),
-      };
+  
+      // If this is not the expanded team, return it unchanged
+      return team;
     });
+  
+    // Update the state with the modified teams array
     setTeams(updatedTeams);
+    // Clear the editing member state
     setEditingMember(null);
   };
+  
 
   return (
     <div className="min-h-screen bg-gray-100 p-4">

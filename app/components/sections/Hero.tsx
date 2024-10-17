@@ -3,16 +3,8 @@ import {  SpecialCamp } from "../../../public/images/index";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {fetchTeamWithMembers} from '@/api/index'
 
 export default function Hero() {
-
-
-  useEffect(()=>{
-    fetchTeamWithMembers('sw40pM6GUa4GvnHWJGGH').then((teamData) => {
-      console.log('Fetched Team Data:', teamData);
-    });
-  }, [])
 
 
   return (

@@ -41,6 +41,7 @@ export interface TeamDataProps {
 
 export interface TeamMemberProps {
   id: number;
+  teamId: number;
   name: string;
   role: string;
   memberType: string;
@@ -110,7 +111,7 @@ export interface EventCardProps {
 export interface TeamProps {
   id: number | any
   name: string
-  head: TeamMemberProps
+  head: TeamMemberProps 
   faculty: TeamMemberProps[]
   students: TeamMemberProps[]
 }
