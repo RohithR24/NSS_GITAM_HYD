@@ -6,6 +6,7 @@ import Tabs from "./Tabs";
 import Gallery from "./Gallery";
 import Button from "./Button";
 import { EventCard } from "./EventCard";
+import FormModal from "./FormModal";
 export {
   Card,
   StatCard,
@@ -15,4 +16,5 @@ export {
   Gallery,
   Button,
   EventCard,
+  FormModal
 };
