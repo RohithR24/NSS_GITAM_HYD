@@ -129,7 +129,8 @@ export const fetchAllTeams = async () => {
       }
     }
 
-    return teams;
+    return teams.sort((a, b) => {
+      return b.name.localeCompare(a.name)});
   } catch (error) {
     console.error("Error fetching teams:", error);
     return []; // Return an empty array in case of an error
