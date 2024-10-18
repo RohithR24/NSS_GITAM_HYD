@@ -51,6 +51,7 @@ const AdminDashboard: React.FC = () => {
 
     fetchTeams(); // Fetch teams when the component mounts
   }, []);
+  
   const handleCreateTeam = () => {
     setIsCreatingTeam(true);
     setNewTeamName(

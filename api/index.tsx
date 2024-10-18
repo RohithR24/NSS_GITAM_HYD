@@ -153,39 +153,45 @@ export const createTeamWithCustomID = async (teamId: string, teamData: any) => {
   }
 };
 
-//Save the member
-
 // Save the member to Firestore
 export const saveMember = async (id: number, profileData: TeamMemberProps) => {
   try {
-    profileData.image = await uploadImageToFirebase(
-      profileData.image,
-      profileData.teamId,
-      profileData.id
-    );
-
-    console.log("profileData", profileData);
     // Reference to the document in the "profile" collection
     const profileRef = doc(db, "profile", id.toString());
 
-    // Check if the document already exists
+    // Retrieve the existing document (if it exists) to get the current image URL
     const existingDoc = await getDoc(profileRef);
+    let existingImageUrl = "";
 
     if (existingDoc.exists()) {
-      // If the document exists, update it
-      await setDoc(profileRef, profileData, { merge: true });
-      console.log("Member updated successfully");
-    } else {
-      // If the document does not exist, create a new one
-      // If memberId is provided, update the existing document
-      const profileRef = doc(db, "profile", id.toString());
-      await setDoc(profileRef, profileData, { merge: true });
-      console.log("New member created successfully");
+      const existingData = existingDoc.data();
+      existingImageUrl = existingData.image || ""; // Use the existing image if no new image is uploaded
     }
+
+    // Handle the case where a new image file is provided, otherwise keep the existing image
+    if (profileData.image && profileData.image instanceof File) {
+      // If a new image is provided, upload it to Firebase
+      profileData.image = await uploadImageToFirebase(
+        profileData.image,
+        profileData.teamId,
+        profileData.id
+      );
+    } else {
+      // No new image, so keep the existing image
+      profileData.image = existingImageUrl;
+    }
+
+    console.log("profileData", profileData);
+
+    // Save or update the profile data in Firestore
+    await setDoc(profileRef, profileData, { merge: true });
+    console.log("Member updated successfully");
+    
   } catch (error) {
     console.error("Error saving member:", error);
   }
 };
+
 
 export const uploadImageToFirebase = async (
   file: File,

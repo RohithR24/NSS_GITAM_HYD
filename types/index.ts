@@ -15,21 +15,10 @@ export interface StatCardProps {
   label: string;
 }
 
-// export interface TeamMemberProps {
-//   teamId: number;
-//   name: string;
-//   role: string;
-//   memberType: string;
-//   image: any;
-//   social: {
-//     linkedin?: string;
-//     instagram?: string;
-//     facebook?: string;
-//   };
-// }
 
 export interface TeamProfileProps {
-  year: string;
+  name: string;
+  id: number,
   head: TeamMemberProps;
   faculty: TeamMemberProps[];
   students: TeamMemberProps[];
