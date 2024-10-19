@@ -34,7 +34,7 @@ const defaultTeamMember: TeamMemberProps = {
 export const fetchProfilesByTeamId = async (teamId: string) => {
   try {
     // Fetch all documents from the profile collection
-    const profilesSnapshot = await getDocs(collection(db, "profile"));
+    const profilesSnapshot = await getDocs(collection(db, "profiles"));
 
     // Initialize containers for categorized members
     let head: TeamMemberProps | null = null;
@@ -44,7 +44,7 @@ export const fetchProfilesByTeamId = async (teamId: string) => {
     // Filter the profiles based on the teamId and categorize them
     profilesSnapshot.forEach((doc) => {
       const profileData = doc.data();
-
+      
       if (profileData.teamId?.toString() === teamId) {
         const member: TeamMemberProps = {
           id: profileData.id ?? Date.now(),
@@ -56,7 +56,7 @@ export const fetchProfilesByTeamId = async (teamId: string) => {
           social: profileData.social ?? {},
         };
 
-        switch (member.memberType) {
+        switch (member.memberType.toLowerCase()) {
           case "head":
             head = member;
             break;
@@ -158,7 +158,7 @@ export const createTeamWithCustomID = async (teamId: string, teamData: any) => {
 export const saveMember = async (id: number, profileData: TeamMemberProps) => {
   try {
     // Reference to the document in the "profile" collection
-    const profileRef = doc(db, "profile", id.toString());
+    const profileRef = doc(db, "profiles", id.toString());
 
     // Retrieve the existing document (if it exists) to get the current image URL
     const existingDoc = await getDoc(profileRef);
@@ -239,7 +239,7 @@ export const uploadImageToFirebase = async (
 export const deleteProfileById = async (id: number) => {
   try {
     // Reference to the document in the "profile" collection
-    const profileRef = doc(db, "profile", id.toString());
+    const profileRef = doc(db, "profiles", id.toString());
 
     //Delete the document
     await deleteDoc(profileRef);

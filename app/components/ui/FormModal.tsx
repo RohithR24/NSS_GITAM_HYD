@@ -9,7 +9,7 @@ interface FormModalProps<T> {
   ) => React.ReactNode;
   onCancel: () => void;
   onSave: () => void;
-  handleChange: (field: keyof T, value: string | File) => void;
+  handleChange?: (field: keyof T, value: string | File) => void;
 }
 
 const FormModal = <T extends {}>({
@@ -23,7 +23,7 @@ const FormModal = <T extends {}>({
   <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
     <div className="bg-white p-4 rounded-lg w-96">
       <h2 className="text-xl font-semibold mb-4">{title}</h2>
-      {renderFields(formData, handleChange)}
+      {handleChange && renderFields(formData, handleChange)}
       <div className="flex justify-end mt-4">
         <button
           onClick={onCancel}

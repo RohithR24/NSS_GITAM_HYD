@@ -7,6 +7,8 @@ import Gallery from "./Gallery";
 import Button from "./Button";
 import { EventCard } from "./EventCard";
 import FormModal from "./FormModal";
+import TeamCard from "./TeamCard";
+import CollapsibleList from "./CollapsibleList";
 export {
   Card,
   StatCard,
@@ -16,5 +18,7 @@ export {
   Gallery,
   Button,
   EventCard,
-  FormModal
+  FormModal,
+  CollapsibleList,
+  TeamCard
 };
