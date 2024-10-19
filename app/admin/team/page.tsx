@@ -28,6 +28,7 @@ const TeamDashboard: React.FC = () => {
   );
   const [isCreatingTeam, setIsCreatingTeam] = useState(false);
   const [newTeamName, setNewTeamName] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
 
   // Fetching teams from the backend on load
   useEffect(() => {
@@ -68,50 +69,53 @@ const TeamDashboard: React.FC = () => {
         name: "NSS-Co-Ordinator",
       },
       faculty: [],
-      students: [],
+      student: [],
     };
     createTeamWithCustomID(newTeamName, { name: newTeamName, id: newTeamId });
     saveMember(newTeam.head.id, newTeam.head);
-    console.log("head", newTeam);
     setTeams((prevTeams) => [...prevTeams, newTeam]);
     setIsCreatingTeam(false);
     setNewTeamName("");
   };
 
   // Handle Add/Edit member logic
-  const handleSaveMember = (
-    updatedMember: TeamMemberProps,
-    isEditing: boolean
-  ) => {
+  const handleSaveMember = (updatedMember: TeamMemberProps) => {
+    // Create the updatedTeams array
     const updatedTeams = teams.map((team) => {
       if (team.id === updatedMember.teamId) {
-        saveMember(updatedMember.id, updatedMember);
+        saveMember(updatedMember.id, updatedMember); // Save member to firebase
         console.log("Adding Profile", updatedMember.memberType);
+
         if (isEditing) {
+          console.log("Updated Teams:01 ", updatedMember);
           // Edit existing member
           const updatedFaculty = team.faculty.map((member) =>
             member.id === updatedMember.id ? updatedMember : member
           );
-          const updatedStudents = team.students.map((member) =>
+          const updatedStudents = team.student.map((member) =>
             member.id === updatedMember.id ? updatedMember : member
           );
+          console.log("Updated Teams:01 ", updatedMember);
           return {
             ...team,
             faculty: updatedFaculty,
-            students: updatedStudents,
+            student: updatedStudents,
           };
         } else {
           // Add new member
+          console.log("Updated Teams:02 ", updatedMember);
           if (updatedMember.memberType === "faculty") {
             return { ...team, faculty: [...team.faculty, updatedMember] };
           } else if (updatedMember.memberType === "student") {
-            return { ...team, students: [...team.students, updatedMember] };
+            return { ...team, student: [...team.student, updatedMember] };
           }
         }
       }
       return team;
     });
-    setTeams(updatedTeams);
+
+    // Set updated teams in state and clear the editing member
+    setTeams(updatedTeams); // Update the teams state with the new list
     setEditingMember(null); // Close the edit form/modal
   };
 
@@ -124,35 +128,62 @@ const TeamDashboard: React.FC = () => {
   const handleDeleteMember = (
     teamId: number,
     memberId: number,
-    memberType: "faculty" | "students" | "head"
+    memberType: "faculty" | "student" | "head"
   ) => {
-    deleteProfileById(memberId);
-
     const updatedTeams = teams.map((team) => {
+      // Find the correct team
       if (team.id === teamId) {
-        if (memberType === "head") {
-          return {
-            ...team,
-            head: {
-              ...defaultMember,
-              id: Date.now(),
-              role: "NSS Co-Ordinator",
-            },
-          };
-        } else {
-          return {
-            ...team,
-            [memberType]: (team[memberType] as TeamMemberProps[]).filter(
+        console.log("Found matching team with ID:", teamId);
+
+        // Only proceed for non-head member types
+        if (memberType !== "head") {
+          // Dynamically access the member type (faculty or students)
+          const membersList = team[memberType];
+          console.log("memberType", memberType );
+          // Ensure we have an array to work with
+          if (Array.isArray(membersList)) {
+            console.log("Current members list before delete:", membersList);
+            console.log("Deleting member with ID:", memberId);
+
+            // Filter out the member with the given memberId
+            const updatedMembersList = membersList.filter(
               (member) => member.id !== memberId
-            ),
-          };
+            );
+
+            console.log(
+              "Updated members list after delete:",
+              updatedMembersList
+            );
+
+            // Return the updated team with the filtered members list
+            return {
+              ...team,
+              [memberType]: updatedMembersList,
+            };
+          } else {
+            console.error(
+              `Expected an array for member type ${memberType} but found:`,
+              membersList
+            );
+          }
         }
       }
-      return team;
+      return team; // Return the team unchanged if no match
     });
 
+    // Update the state with the filtered teams
     setTeams(updatedTeams);
+
+    // Execute deletion from backend/API after updating the state
+    deleteProfileById(memberId)
+      .then(() => {
+        console.log(`Profile with ID ${memberId} deleted successfully`);
+      })
+      .catch((error) => {
+        console.error("Error deleting member:", error);
+      });
   };
+
   type TeamMemberProps = {
     id: number;
     teamId: number;
@@ -186,7 +217,7 @@ const TeamDashboard: React.FC = () => {
           </button>
         ) : (
           <FormModal
-            title="Create New Team"
+            title={isEditing ? "Edit Member" : "Add Member"}
             formData={{ name: newTeamName }}
             renderFields={(data, handleChange) => (
               <input
@@ -207,7 +238,7 @@ const TeamDashboard: React.FC = () => {
           <CollapsibleList
             key={team.id}
             title={team.name}
-            items={[team.head, ...team.faculty, ...team.students]}
+            items={[team.head, ...team.faculty, ...team.student]}
             renderItem={(member) => (
               <TeamCard
                 key={member.id}
@@ -217,19 +248,23 @@ const TeamDashboard: React.FC = () => {
                   { label: "Role", value: item.role },
                   { label: "Type", value: item.memberType },
                 ]}
-                onEdit={() => setEditingMember(member)}
+                onEdit={() => {
+                  setEditingMember(member);
+                  setIsEditing(true); // Set editing mode
+                }}
                 onDelete={() =>
                   handleDeleteMember(
                     team.id,
                     member.id,
-                    member.memberType as "faculty" | "students" | "head"
+                    member.memberType as "faculty" | "student" | "head"
                   )
                 }
               />
             )}
-            onAddItem={() =>
-              setEditingMember({ ...defaultMember, teamId: team.id })
-            }
+            onAddItem={() => {
+              setEditingMember({ ...defaultMember, teamId: team.id });
+              setIsEditing(false);
+            }}
           />
         ))}
 
@@ -330,7 +365,7 @@ const TeamDashboard: React.FC = () => {
               </>
             )}
             onCancel={() => setEditingMember(null)}
-            onSave={() => handleSaveMember(editingMember, !!editingMember.id)}
+            onSave={() => handleSaveMember(editingMember)}
             handleChange={handleFieldChange}
           />
         )}

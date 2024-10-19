@@ -39,7 +39,7 @@ export const fetchProfilesByTeamId = async (teamId: string) => {
     // Initialize containers for categorized members
     let head: TeamMemberProps | null = null;
     const faculty: TeamMemberProps[] = [];
-    const students: TeamMemberProps[] = [];
+    const student: TeamMemberProps[] = [];
 
     // Filter the profiles based on the teamId and categorize them
     profilesSnapshot.forEach((doc) => {
@@ -64,7 +64,7 @@ export const fetchProfilesByTeamId = async (teamId: string) => {
             faculty.push(member);
             break;
           case "student":
-            students.push(member);
+            student.push(member);
             break;
           default:
             console.warn(`Unknown memberType: ${member.memberType}`);
@@ -75,7 +75,7 @@ export const fetchProfilesByTeamId = async (teamId: string) => {
     const filteredTeamData = {
       head,
       faculty,
-      students,
+      student,
     };
 
     return filteredTeamData;
@@ -109,7 +109,7 @@ export const fetchAllTeams = async () => {
         social: {},
       }, // Provide a default empty TeamMember object for 'head'
       faculty: [], // Initialize 'faculty' as an empty array
-      students: [], // Initialize 'students' as an empty array
+      student: [], // Initialize 'students' as an empty array
     }));
 
     for (let i = 0; i < teams.length; i++) {

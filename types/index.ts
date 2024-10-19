@@ -21,7 +21,7 @@ export interface TeamProfileProps {
   id: number,
   head: TeamMemberProps;
   faculty: TeamMemberProps[];
-  students: TeamMemberProps[];
+  student: TeamMemberProps[];
 }
 
 export interface TeamDataProps {
@@ -102,5 +102,5 @@ export interface TeamProps {
   name: string
   head: TeamMemberProps 
   faculty: TeamMemberProps[]
-  students: TeamMemberProps[]
+  student: TeamMemberProps[]
 }

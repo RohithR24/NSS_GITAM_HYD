@@ -11,7 +11,7 @@ export default function TeamStructure({ teamData }: TeamDataProps) {
 
   // Dynamically compute the selected team based on active tab
   const selectedTeam =
-    activeTab === "student" ? teamData.students : teamData.faculty;
+    activeTab === "student" ? teamData.student : teamData.faculty;
 
   const handleTabSelect = (area: string) => {
     setActiveTab(area);
