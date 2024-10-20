@@ -262,7 +262,7 @@ const TeamDashboard: React.FC = () => {
               />
             )}
             onAddItem={() => {
-              setEditingMember({ ...defaultMember, teamId: team.id });
+              setEditingMember({ ...defaultMember,id: Date.now(), teamId: team.id });
               setIsEditing(false);
             }}
           />
