@@ -8,7 +8,7 @@ interface TeamCardProps<T extends { name: string; image: string | File | null }>
   onDelete: () => void;
 }
 
-const TeamCard = <T extends { name: string; image: string | File | null }>({
+const TeamCard = <T extends { name: string; image: string | File | null; memberType: string }>({
   data,
   displayFields,
   onEdit,
@@ -35,9 +35,12 @@ const TeamCard = <T extends { name: string; image: string | File | null }>({
       <button onClick={() => onEdit(data)} className="text-blue-500 mr-2">
         <Edit size={18} />
       </button>
-      <button onClick={onDelete} className="text-red-500">
+      {data.memberType !=='head'? <button onClick={onDelete} className="text-red-500">
         <Trash size={18} />
-      </button>
+      </button>: <></> }
+      {/* <button onClick={onDelete} className="text-red-500">
+        <Trash size={18} />
+      </button> */}
     </div>
   </div>
 );
