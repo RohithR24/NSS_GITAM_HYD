@@ -18,7 +18,7 @@ import SocialService from './social-services.png'
 import GITAM from './gitam.jpeg'
 import BloodDonation from './blood-donation-drive.png'
 import CommunityCleanupDrive from './community-cleanup-drive.png'
-
+import NewGitamLogo from './gitam-logo.png'
 export {
     hero,
     campus1,
@@ -37,5 +37,6 @@ export {
     SocialService,
     GITAM,
     BloodDonation,
-    CommunityCleanupDrive
+    CommunityCleanupDrive,
+    NewGitamLogo
 }

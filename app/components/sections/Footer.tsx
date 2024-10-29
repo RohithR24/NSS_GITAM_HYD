@@ -13,7 +13,7 @@ import {
   Thermometer,
   Wind,
 } from "lucide-react";
-import { logo, GITAM } from "@/public/images";
+import { logo, NewGitamLogo } from "@/public/images";
 import { motion } from "framer-motion";
 
 const footerLinks = [
@@ -65,7 +65,7 @@ const Footer = () => {
                 height={80}
               />
               <Image
-                src={GITAM}
+                src={NewGitamLogo}
                 alt="GITAM Logo"
                 width={70}
                 height={70}
