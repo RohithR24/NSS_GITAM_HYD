@@ -2,12 +2,13 @@
 
 import React, { useState, useEffect } from 'react';
 import { Sun, Droplets, Wind } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface WeatherData {
   temperature: number;
   humidity: number;
   windSpeed: number;
-  lastUpdated: string;
+  lastUpdated: string | null;
 }
 
 export const Weather = () => {
@@ -15,11 +16,18 @@ export const Weather = () => {
     temperature: 75,
     humidity: 65,
     windSpeed: 8,
-    lastUpdated: new Date().toLocaleTimeString()
+    lastUpdated: null // Initialize as null
   });
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Update time every minute
+    setMounted(true);
+    // Set initial time after component mounts
+    setWeatherData(prev => ({
+      ...prev,
+      lastUpdated: new Date().toLocaleTimeString()
+    }));
+
     const timer = setInterval(() => {
       setWeatherData(prev => ({
         ...prev,
@@ -31,56 +39,53 @@ export const Weather = () => {
   }, []);
 
   return (
-    <div className="bg-[#002347] rounded-lg p-4 shadow-lg">
-      <div className="text-[#FF8C00] font-semibold mb-2">
-        Long Beach, CA
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className=" bg-[#000033] bg-opacity-80 rounded-lg p-4 shadow-sm h-full border border-[#000066]"
+    >
+      <div className="text-[#cc4444] font-medium mb-2 flex items-center justify-between ">
+        <span>Rudraram, TS</span>
+        <Sun className="w-5 h-5 opacity-70" />
       </div>
-      <div className="text-gray-300 text-sm mb-4">
+      <div className="text-gray-400 text-sm mb-4">
         Current Weather
       </div>
 
-      {/* Temperature */}
-      <div className="flex items-center space-x-2 mb-4">
-        <div className="bg-[#003366] p-2 rounded-full">
-          <Sun className="w-5 h-5 text-[#FF8C00]" />
-        </div>
-        <div>
-          <div className="text-2xl font-bold text-white">
+      <div className="space-y-3">
+        <div className="flex items-center justify-between bg-[#000040] bg-opacity-40 p-3 rounded-lg">
+          <div className="text-gray-400 text-sm">Temperature</div>
+          <div className="text-xl font-medium text-gray-200">
             {weatherData.temperature}°F
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between bg-[#000040] bg-opacity-40 p-3 rounded-lg">
+          <div className="text-gray-400 text-sm">Humidity</div>
+          <div className="text-lg font-medium text-gray-200 flex items-center">
+            <Droplets className="w-4 h-4 mr-1 text-[#cc4444] opacity-70" />
+            {weatherData.humidity}%
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between bg-[#000040] bg-opacity-40 p-3 rounded-lg">
+          <div className="text-gray-400 text-sm">Wind Speed</div>
+          <div className="text-lg font-medium text-gray-200 flex items-center">
+            <Wind className="w-4 h-4 mr-1 text-[#cc4444] opacity-70" />
+            {weatherData.windSpeed} mph
           </div>
         </div>
       </div>
 
-      {/* Humidity */}
-      <div className="flex items-center space-x-2 mb-4">
-        <div className="bg-[#003366] p-2 rounded-full">
-          <Droplets className="w-5 h-5 text-blue-400" />
-        </div>
-        <div>
-          <div className="text-sm text-gray-400">Humidity</div>
-          <div className="text-white">{weatherData.humidity}%</div>
-        </div>
-      </div>
-
-      {/* Wind Speed */}
-      <div className="flex items-center space-x-2 mb-4">
-        <div className="bg-[#003366] p-2 rounded-full">
-          <Wind className="w-5 h-5 text-gray-400" />
-        </div>
-        <div>
-          <div className="text-sm text-gray-400">Wind Speed</div>
-          <div className="text-white">{weatherData.windSpeed} mph</div>
-        </div>
-      </div>
-
-      {/* Last Updated */}
-      <div className="text-xs text-gray-400 mt-4">
+      <div className="mt-4 pt-3 border-t border-[#000066] border-opacity-20 text-xs text-gray-500">
         Last Updated
-        <div className="text-[#FF8C00]">{weatherData.lastUpdated}</div>
+        <div className="text-[#cc4444] text-opacity-80">
+          {/* Only show time after component has mounted */}
+          {mounted ? weatherData.lastUpdated : 'Loading...'}
+        </div>
       </div>
-
-      
-    </div>
+    </motion.div>
   );
 };
 
