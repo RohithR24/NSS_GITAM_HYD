@@ -6,7 +6,7 @@ import { fetchWeatherAndAirQuality } from '@/api/weather';
 interface WeatherData {
   temperature: number | null;
   humidity: number | null;
-  windSpeed: number | null;
+  windSpeed: string | null;
   airQuality: number | null;
 }
 
@@ -18,7 +18,6 @@ export const Weather = () => {
     const fetchData = async () => {
       try {
         const data = await fetchWeatherAndAirQuality(1, 1);
-        console.log('Rohith', data);
         setWeatherData(data);
       } catch (error) {
         console.log('Error calling method');
@@ -53,7 +52,7 @@ export const Weather = () => {
         <div className="flex items-center justify-between bg-[#000040] bg-opacity-40 p-3 rounded-lg">
           <div className="text-gray-400 text-sm">Temperature</div>
           <div className="text-xl font-medium text-gray-200">
-            {weatherData.temperature ?? "N/A"}°F
+            {weatherData.temperature ?? "N/A"}°C
           </div>
         </div>
 
@@ -69,7 +68,7 @@ export const Weather = () => {
           <div className="text-gray-400 text-sm">Wind Speed</div>
           <div className="text-lg font-medium text-gray-200 flex items-center">
             <Wind className="w-4 h-4 mr-1 text-[#cc4444] opacity-70" />
-            {weatherData.windSpeed ?? "N/A"} mph
+            {weatherData.windSpeed ?? "N/A"} KmpH
           </div>
         </div>
       </div>

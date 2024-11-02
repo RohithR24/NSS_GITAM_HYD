@@ -2,7 +2,7 @@ export async function fetchWeather(lat: number, lon: number) {
   const apiKey = process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY;
   try {
     const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?lat=17.1337&lon=77.5104&appid=5fca152209a58dbac09f2384b466349e`
+      `https://api.openweathermap.org/data/2.5/weather?lat=17.1337&lon=77.5104&appid=5fca152209a58dbac09f2384b466349e&units=metric`
     );
 
     if (!response.ok) {
@@ -45,7 +45,7 @@ export async function fetchWeatherAndAirQuality(lat: number, lon: number) {
     // Check if air quality data exists
     const airQuality = airQualityData?.list?.[0]?.main?.aqi ?? null;
     const temperature = weatherData?.main?.temp ?? null;
-    const windSpeed = weatherData?.wind?.speed ?? null;
+    const windSpeed = weatherData?.wind?.speed ? (weatherData.wind.speed * 3.6).toFixed(2) : null;
     const humidity = weatherData?.main?.humidity?? null;
     console.log('Rohith ', weatherData);
     // Construct and return the combined data object
