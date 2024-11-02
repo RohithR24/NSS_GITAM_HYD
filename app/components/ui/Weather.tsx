@@ -1,42 +1,40 @@
-'use client';
-
 import React, { useState, useEffect } from 'react';
 import { Sun, Droplets, Wind } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { fetchWeatherAndAirQuality } from '@/api/weather';
 
 interface WeatherData {
-  temperature: number;
-  humidity: number;
-  windSpeed: number;
-  lastUpdated: string | null;
+  temperature: number | null;
+  humidity: number | null;
+  windSpeed: number | null;
+  airQuality: number | null;
 }
 
 export const Weather = () => {
-  const [weatherData, setWeatherData] = useState<WeatherData>({
-    temperature: 75,
-    humidity: 65,
-    windSpeed: 8,
-    lastUpdated: null // Initialize as null
-  });
-  const [mounted, setMounted] = useState(false);
+  const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    setMounted(true);
-    // Set initial time after component mounts
-    setWeatherData(prev => ({
-      ...prev,
-      lastUpdated: new Date().toLocaleTimeString()
-    }));
-
-    const timer = setInterval(() => {
-      setWeatherData(prev => ({
-        ...prev,
-        lastUpdated: new Date().toLocaleTimeString()
-      }));
-    }, 60000);
-
-    return () => clearInterval(timer);
+    const fetchData = async () => {
+      try {
+        const data = await fetchWeatherAndAirQuality(1, 1);
+        console.log('Rohith', data);
+        setWeatherData(data);
+      } catch (error) {
+        console.log('Error calling method');
+        setError("Failed to load weather data.");
+      }
+    };
+    fetchData();
   }, []);
+
+  if (error) {
+    return <div className="text-red-500">{error}</div>;
+  }
+
+  if (!weatherData) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <motion.div
@@ -49,15 +47,13 @@ export const Weather = () => {
         <span>Rudraram, TS</span>
         <Sun className="w-5 h-5 opacity-70" />
       </div>
-      <div className="text-gray-400 text-sm mb-4">
-        Current Weather
-      </div>
+      <div className="text-gray-400 text-sm mb-4">Current Weather</div>
 
       <div className="space-y-3">
         <div className="flex items-center justify-between bg-[#000040] bg-opacity-40 p-3 rounded-lg">
           <div className="text-gray-400 text-sm">Temperature</div>
           <div className="text-xl font-medium text-gray-200">
-            {weatherData.temperature}°F
+            {weatherData.temperature ?? "N/A"}°F
           </div>
         </div>
 
@@ -65,7 +61,7 @@ export const Weather = () => {
           <div className="text-gray-400 text-sm">Humidity</div>
           <div className="text-lg font-medium text-gray-200 flex items-center">
             <Droplets className="w-4 h-4 mr-1 text-[#cc4444] opacity-70" />
-            {weatherData.humidity}%
+            {weatherData.humidity ?? "N/A"}%
           </div>
         </div>
 
@@ -73,16 +69,8 @@ export const Weather = () => {
           <div className="text-gray-400 text-sm">Wind Speed</div>
           <div className="text-lg font-medium text-gray-200 flex items-center">
             <Wind className="w-4 h-4 mr-1 text-[#cc4444] opacity-70" />
-            {weatherData.windSpeed} mph
+            {weatherData.windSpeed ?? "N/A"} mph
           </div>
-        </div>
-      </div>
-
-      <div className="mt-4 pt-3 border-t border-[#000066] border-opacity-20 text-xs text-gray-500">
-        Last Updated
-        <div className="text-[#cc4444] text-opacity-80">
-          {/* Only show time after component has mounted */}
-          {mounted ? weatherData.lastUpdated : 'Loading...'}
         </div>
       </div>
     </motion.div>
