@@ -1,44 +1,31 @@
 "use client"
 
-import React from 'react'
-import { motion } from 'framer-motion'
-import { useInView } from 'react-intersection-observer'
+import React, { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
-import { campus2, campus1, hero } from "../../../public/images/index";
-import { TJIYLC, NtrTrust, LionsClub, GHMC1, HarithHaramLogo  } from "../../../public/images/index";
+import { TJIYLC, NtrTrust, LionsClub, GHMC1, HarithHaramLogo } from "../../../public/images/index"
+import { ChevronLeft, ChevronRight } from 'lucide-react'
+
 interface CollaboratorProps {
   src: any
   alt: string
 }
 
 const Collaborator: React.FC<CollaboratorProps> = ({ src, alt }) => {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  })
-
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5 }}
-      className="flex items-center justify-center"
-    >
-      <motion.div
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.95 }}
-        className="relative w-32 h-32 md:w-40 md:h-40"
-      >
-        <Image
-          src={src}
-          alt={alt}
-          layout="fill"
-          objectFit="contain"
-          className="transition-all duration-300 ease-in-out filter hover:brightness-110"
-        />
-      </motion.div>
-    </motion.div>
+    <div className="flex items-center justify-center h-full">
+      <div className="bg-white rounded-lg shadow-lg p-4 w-40 h-40 flex items-center justify-center">
+        <div className="relative w-full h-full">
+          <Image
+            src={src}
+            alt={alt}
+            layout="fill"
+            objectFit="contain"
+            className="transition-all duration-300 ease-in-out"
+          />
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -49,17 +36,79 @@ export default function Collaborations() {
     { src: LionsClub, alt: "Lions Club" },
     { src: GHMC1, alt: "GHMC" },
     { src: HarithHaramLogo, alt: "HarithaHaram Logo" },
+    { src: TJIYLC, alt: "TJIYLC" },
+    { src: NtrTrust, alt: "NTR Trust" },
+    { src: LionsClub, alt: "Lions Club" },
+    { src: GHMC1, alt: "GHMC" },
+    { src: HarithHaramLogo, alt: "HarithaHaram Logo" }
+    
+    // Add more collaborators if needed to ensure at least 5 are always visible
   ]
 
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % collaborators.length)
+    }, 10000) // Change slide every 3 seconds
+
+    return () => clearInterval(timer)
+  }, [])
+
+  const nextSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % collaborators.length)
+  }
+
+  const prevSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + collaborators.length) % collaborators.length)
+  }
+
   return (
-    <section className="bg-gray-100 py-16">
+    <section className="bg-[#000040] py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-12">
+        <h2 className="text-4xl font-bold text-white text-center mb-12">
           Collaborations
         </h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
-          {collaborators.map((collaborator, index) => (
-            <Collaborator key={index} {...collaborator} />
+        <div className="relative">
+          <div className="overflow-hidden">
+            {/* <AnimatePresence initial={false}> */}
+              <div
+                key={currentIndex}
+                className="flex justify-center items-center"
+              >
+                <div className="flex space-x-8">
+                  {[...Array(5)].map((_, i) => (
+                    <Collaborator
+                      key={i}
+                      {...collaborators[(currentIndex + i) % collaborators.length]}
+                    />
+                  ))}
+                </div>
+              </div>
+            {/* </AnimatePresence> */}
+          </div>
+          <button
+            onClick={prevSlide}
+            className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-[#cc4444] text-white p-2 rounded-full hover:bg-[#aa3333] transition-colors duration-300"
+          >
+            <ChevronLeft size={24} />
+          </button>
+          <button
+            onClick={nextSlide}
+            className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-[#cc4444] text-white p-2 rounded-full hover:bg-[#aa3333] transition-colors duration-300"
+          >
+            <ChevronRight size={24} />
+          </button>
+        </div>
+        <div className="flex justify-center mt-8">
+          {collaborators.map((_, index) => (
+            <button
+              key={index}
+              className={`w-3 h-3 rounded-full mx-1 ${
+                index === currentIndex ? 'bg-[#cc4444]' : 'bg-white opacity-50'
+              }`}
+              onClick={() => setCurrentIndex(index)}
+            />
           ))}
         </div>
       </div>

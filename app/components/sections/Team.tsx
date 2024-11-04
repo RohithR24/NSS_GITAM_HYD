@@ -111,7 +111,7 @@ export default function Team() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.3 }}
-          className="bg-white text-[#000040] p-8 rounded-lg shadow-lg border border-[#000040]"
+          //className="bg-white text-[#000040] p-8 rounded-lg shadow-lg border border-[#000040]"
         >
           {selectedTeamData ? (
             <TeamStructure
