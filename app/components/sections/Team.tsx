@@ -1,19 +1,21 @@
 "use client";
 
-import React, { useEffect, useState, useMemo, useCallback } from "react";
+import React, { useEffect, useState, useMemo, useCallback, useRef } from "react";
 import { motion } from "framer-motion";
-import { TeamStructure } from "@/app/components/ui/index";
+import { TeamCarousel, TeamStructure } from "@/app/components/ui/index";
 import { fetchAllTeams } from "@/api/index";
 import { TeamProps } from "@/types";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
+
+
 
 export default function Team() {
   const [selectedTeam, setSelectedTeam] = useState<string>("");
-  const [teams, setTeams] = useState<TeamProps[]>([]); // Initialize with an empty array
+  const [teams, setTeams] = useState<TeamProps[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
-  // Memoized function to fetch teams to avoid re-fetching on every render
+
   useEffect(() => {
     const fetchTeams = async () => {
       try {
@@ -22,29 +24,31 @@ export default function Team() {
         setSelectedTeam(fetchedTeams[0].name);
       } catch (error) {
         console.error("Error in fetching teams:", error);
-        setTeams([]); // Set empty array in case of an error
+        setTeams([]);
       }
     };
     fetchTeams();
   }, []);
 
-  // Memoize the selected team to avoid unnecessary re-renders
   const selectedTeamData = useMemo(
     () => teams.find((team) => team.name === selectedTeam),
     [selectedTeam, teams]
   );
 
-  // Callback for selecting a team
+  const handleYearSelect = (team: string) => {
+    setSelectedTeam(team)
+  }
+
   const handleTeamSelect = useCallback((teamName: string) => {
     setSelectedTeam(teamName);
   }, []);
 
   return (
-    <div className="relative min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-background to-secondary overflow-hidden">
-      <div className="relative z-10 w-full max-w-4xl px-4 py-8">
+    <div className="relative min-h-screen flex flex-col items-center justify-center bg-white overflow-hidden">
+      <div className="relative z-10 w-full max-w-4xl px-6 py-12">
         <div className="text-center py-12">
-          <h1 className="text-4xl font-bold text-gray-800">Our Team</h1>
-          <p className="mt-4 text-lg text-gray-600 max-w-xl mx-auto">
+          <h1 className="text-5xl font-bold text-[#000040] mb-6">Our Team</h1>
+          <p className="mt-6 text-xl text-[#000040] max-w-2xl mx-auto">
             Meet the dedicated individuals who drive our mission forward. With
             experienced faculty and passionate students at the helm, we are
             committed to making a lasting impact in our community.
@@ -52,34 +56,22 @@ export default function Team() {
         </div>
 
         {/* Team Buttons */}
-        <div className="w-full">
+        <div className="w-full mb-12 ">
           {/* Desktop view */}
-          <div className="hidden md:block bg-gray-100 p-4 rounded-lg shadow-inner">
-            <div className="flex justify-center space-x-2 overflow-x-auto pb-4">
-              {teams.map((team) => (
-                <motion.button
-                  key={team.id}
-                  className={`px-6 py-3 rounded-full text-sm font-bold transition-all duration-300 ${
-                    selectedTeam === team.name
-                      ? "bg-blue-600 text-white shadow-lg border-b-4 border-red-500"
-                      : "bg-white text-blue-600 hover:bg-blue-50 hover:border-b-4 hover:border-red-300"
-                  }`}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => setSelectedTeam(team.name)}
-                >
-                  {team.name}
-                </motion.button>
-              ))}
-            </div>
+          <div className="hidden md:block">
+          <TeamCarousel
+            years={teams.map(team => team.name)}
+            selectedYear={selectedTeam}
+            onYearSelect={handleYearSelect}
+          />
           </div>
-
+          
           {/* Mobile view */}
           <div className="md:hidden">
             <div className="relative">
               <button
                 onClick={toggleDropdown}
-                className="w-full bg-blue-600 text-white px-4 py-3 rounded-lg shadow-md flex justify-between items-center"
+                className="w-full bg-[#000040] text-white px-6 py-4 rounded-lg shadow-md flex justify-between items-center"
               >
                 <span className="font-bold">{selectedTeam}</span>
                 <ChevronDown
@@ -93,10 +85,10 @@ export default function Team() {
                   {teams.map((team) => (
                     <button
                       key={team.id}
-                      className={`w-full text-left px-4 py-3 text-sm font-medium ${
+                      className={`w-full text-left px-6 py-4 text-sm font-medium ${
                         selectedTeam === team.name
-                          ? "bg-blue-100 text-blue-600"
-                          : "text-gray-700 hover:bg-gray-100"
+                          ? "bg-[#cc4444] text-white"
+                          : "text-[#000040] hover:bg-[#f0f0f0]"
                       }`}
                       onClick={() => {
                         setSelectedTeam(team.name);
@@ -119,7 +111,7 @@ export default function Team() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.3 }}
-          className="bg-card text-card-foreground p-6 rounded-lg shadow-lg"
+          className="bg-white text-[#000040] p-8 rounded-lg shadow-lg border border-[#000040]"
         >
           {selectedTeamData ? (
             <TeamStructure
@@ -127,7 +119,7 @@ export default function Team() {
               teamData={selectedTeamData}
             />
           ) : (
-            <p className="text-gray-600">Select a team to see its structure</p>
+            <p className="text-[#000040] text-lg">Select a team to see its structure</p>
           )}
         </motion.div>
       </div>

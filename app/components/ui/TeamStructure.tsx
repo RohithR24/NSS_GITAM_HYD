@@ -18,7 +18,7 @@ export default function TeamStructure({ teamData }: TeamDataProps) {
   };
 
   return (
-    <div>
+    <div className="bg-white rounded-lg shadow-lg p-6">
       {/* Tabs Component */}
       <Tabs
         title={teamTabTitles}
@@ -27,17 +27,17 @@ export default function TeamStructure({ teamData }: TeamDataProps) {
       />
 
       {/* Team Structure Section */}
-      <div className=" mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8">
         {/* Head Member Card */}
         {activeTab === "faculty" && (
-          <div className="flex flex-col items-center justify-center">
+          <div className="flex flex-col items-center justify-center mb-12">
             <TeamMemberCard
               member={teamData.head}
               isHead
               activeTab={activeTab}
               index={0}
             />
-            <div className="w-px h-16 bg-gray-300 my-8"></div>
+            <div className="w-px h-16 bg-[#cc4444] my-8"></div>
           </div>
         )}
 
@@ -45,9 +45,9 @@ export default function TeamStructure({ teamData }: TeamDataProps) {
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
           >
             <div
@@ -64,7 +64,6 @@ export default function TeamStructure({ teamData }: TeamDataProps) {
               } ${
                 selectedTeam.length <= 3 ? 'max-w-4xl mx-auto' : ''
               }`}
-            
             >
               {selectedTeam.map((member, index) => (
                 <TeamMemberCard

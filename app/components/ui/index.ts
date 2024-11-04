@@ -10,6 +10,7 @@ import FormModal from "./FormModal";
 import TeamCard from "./TeamCard";
 import CollapsibleList from "./CollapsibleList";
 import Weather from "./Weather";
+import {TeamCarousel} from './TeamCarousel ' ;
 export {
   Card,
   StatCard,
@@ -22,5 +23,6 @@ export {
   FormModal,
   CollapsibleList,
   TeamCard,
-  Weather
+  Weather,
+  TeamCarousel
 };

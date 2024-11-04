@@ -1,4 +1,5 @@
 "use client";
+
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { Linkedin, Instagram, Facebook } from "lucide-react";
@@ -43,6 +44,7 @@ const SocialLinks: React.FC<{ social: TeamMemberProps["social"] }> = ({
   </div>
 );
 
+
 export const TeamMemberCard: React.FC<{
   member: TeamMemberProps;
   isHead?: boolean;
@@ -50,47 +52,61 @@ export const TeamMemberCard: React.FC<{
   index: number;
 }> = ({ member, isHead, activeTab, index }) => {
   const [isHovered, setIsHovered] = useState(false);
+
   return (
     <motion.div
       key={index}
       className="flex flex-col items-center"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      whileHover={{ scale: 1.1 }}
+      whileHover={{ scale: 1.05 }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       transition={{ duration: 0.3, delay: index * 0.1 }}
     >
-      <div className={`relative ${isHead ? "w-48 h-48" : "w-32 h-32"} mb-4`}>
+      <div className={`relative ${isHead ? "w-48 h-48" : "w-36 h-36"} mb-4`}>
         <Image
           src={member.image === "" ? Avatar : member.image}
           alt={member.name}
           layout="fill"
           objectFit="cover"
-          className="rounded-full"
+          className="rounded-full border-4 border-[#000040]"
         />
+        {/* {isHead && (
+          <div className="absolute -top-2 -right-2 bg-[#cc4444] text-white text-xs font-bold px-2 py-1 rounded-full">
+            Head
+          </div>
+        )} */}
       </div>
 
       <h3
         className={`font-semibold ${
-          isHead ? "text-xl" : "text-lg "
-        } text-center`}
+          isHead ? "text-xl" : "text-lg"
+        } text-center text-[#000040] mb-2`}
       >
         {member.name}
       </h3>
       <AnimatePresence mode="wait">
         {isHovered ? (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.3, delay: 0.3 }}
-            className=" bottom-full left-1/2 transform -translate-x-1/2"
+            transition={{ duration: 0.2 }}
+            className="bottom-full left-1/2 transform -translate-x-1/2"
           >
             <SocialLinks social={member.social} />
           </motion.div>
         ) : (
-          <p className="text-sm text-gray-600 py-1">{member.role}</p>
+          <motion.p
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            transition={{ duration: 0.2 }}
+            className="text-sm text-[#cc4444] font-medium py-1 px-3 bg-[#fff0f0] rounded-full"
+          >
+            {member.role}
+          </motion.p>
         )}
       </AnimatePresence>
     </motion.div>
