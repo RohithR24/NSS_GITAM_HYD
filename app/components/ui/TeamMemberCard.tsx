@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Linkedin, Instagram, Facebook } from "lucide-react";
 import { TeamMemberProps } from "@/types";
 import { useState } from "react";
-import { Avatar, Coordinator } from "@/public/team";
+import { Avatar, Avatar02 } from "@/public/team";
 
 const SocialLinks: React.FC<{ social: TeamMemberProps["social"] }> = ({
   social,
@@ -66,7 +66,7 @@ export const TeamMemberCard: React.FC<{
     >
       <div className={`relative ${isHead ? "w-48 h-48" : "w-36 h-36"} mb-4`}>
         <Image
-          src={member.image === "" ? Avatar : member.image}
+          src={member.image === "" ? Avatar02 : member.image}
           alt={member.name}
           layout="fill"
           objectFit="cover"
