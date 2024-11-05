@@ -2,24 +2,31 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Trash2, Edit, Plus, ChevronDown, ChevronUp, X } from "lucide-react";
-import { addInitiativeFB, deleteInitiativeFB, fetchFocusAreas, updateInitiativeFB } from "@/api";
+import {
+  addInitiativeFB,
+  deleteInitiativeFB,
+  fetchFocusAreas,
+  updateInitiativeFB,
+  uploadImage,
+} from "@/api";
 import { Initiative, InitiativeFocusArea } from "@/types";
-
-
 
 const InitiativeDashboard: React.FC = () => {
   const [focusAreas, setFocusAreas] = useState<InitiativeFocusArea[]>([]);
   const [expandedArea, setExpandedArea] = useState<string | null>(null);
-  const [editingInitiative, setEditingInitiative] = useState<{ areaId: string; index: number } | null>(null);
+  const [editingInitiative, setEditingInitiative] = useState<{
+    areaId: string;
+    index: number;
+  } | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  
+
   // Fetch data from Firestore
   useEffect(() => {
     const loadData = async () => {
       try {
-        const data = await fetchFocusAreas(); // Fetch data using the separate function
+        const data = await fetchFocusAreas();
         setFocusAreas(data);
       } catch (error) {
         console.error("Error loading data:", error);
@@ -29,17 +36,17 @@ const InitiativeDashboard: React.FC = () => {
     loadData();
   }, []);
 
- 
-
-  const handleDeleteInitiative = async (areaId: string, initiativeId: string) => {
+  const handleDeleteInitiative = async (
+    areaId: string,
+    initiativeId: string
+  ) => {
     setLoading(true);
     setError(null);
 
     try {
-      await deleteInitiativeFB(areaId, initiativeId); // Call delete function
+      await deleteInitiativeFB(areaId, initiativeId);
       setSuccess("Initiative deleted successfully!");
 
-      // Remove initiative from the local state
       setFocusAreas((prevAreas) =>
         prevAreas.map((area) =>
           area.id === areaId
@@ -65,12 +72,16 @@ const InitiativeDashboard: React.FC = () => {
     setEditingInitiative({ areaId, index });
   };
 
-  const handleSaveInitiative = async (areaId: string, initiativeId: string, updatedInitiative: Initiative) => {
+  const handleSaveInitiative = async (
+    areaId: string,
+    initiativeId: string,
+    updatedInitiative: Initiative
+  ) => {
     setLoading(true);
     setError(null);
 
     try {
-      await updateInitiativeFB(areaId, updatedInitiative, initiativeId); // Overwrite the initiative document in Firestore
+      await updateInitiativeFB(areaId, updatedInitiative, initiativeId);
       setSuccess("Initiative updated successfully!");
 
       setFocusAreas((prevAreas) =>
@@ -79,7 +90,9 @@ const InitiativeDashboard: React.FC = () => {
             ? {
                 ...area,
                 initiatives: area.initiatives.map((initiative) =>
-                  initiative.id === initiativeId ? updatedInitiative : initiative
+                  initiative.id === initiativeId
+                    ? updatedInitiative
+                    : initiative
                 ),
               }
             : area
@@ -97,20 +110,19 @@ const InitiativeDashboard: React.FC = () => {
   const handleAddInitiative = async (areaId: string) => {
     const newInitiative: Initiative = {
       id: Date.now().toString(),
-      images: ["Image"],
+      images: [],
       caption: "New Initiative",
       description: "Description for the new initiative.",
       location: "Default Location",
-      date: new Date().toISOString().slice(0, 10)
+      date: new Date().toISOString().slice(0, 10),
     };
 
     try {
-      await addInitiativeFB(areaId, newInitiative, newInitiative.id); // Call the modular add function
+      await addInitiativeFB(areaId, newInitiative, newInitiative.id);
       setSuccess("Initiative added successfully!");
 
-      // Update the state to include the new initiative without refetching
-      setFocusAreas(prevAreas =>
-        prevAreas.map(area =>
+      setFocusAreas((prevAreas) =>
+        prevAreas.map((area) =>
           area.id === areaId
             ? { ...area, initiatives: [...area.initiatives, newInitiative] }
             : area
@@ -123,16 +135,20 @@ const InitiativeDashboard: React.FC = () => {
     }
   };
 
-
   const toggleExpandArea = (areaId: string) => {
-    setExpandedArea(prevArea => (prevArea === areaId ? null : areaId));
+    setExpandedArea((prevArea) => (prevArea === areaId ? null : areaId));
   };
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6 text-blue-600">Initiative Dashboard</h1>
-      {focusAreas.map(area => (
-        <div key={area.id} className="mb-8 bg-white shadow-lg rounded-lg overflow-hidden">
+      <h1 className="text-3xl font-bold mb-6 text-blue-600">
+        Initiative Dashboard
+      </h1>
+      {focusAreas.map((area) => (
+        <div
+          key={area.id}
+          className="mb-8 bg-white shadow-lg rounded-lg overflow-hidden"
+        >
           <div
             className="bg-blue-500 text-white p-4 flex justify-between items-center cursor-pointer"
             onClick={() => toggleExpandArea(area.id)}
@@ -144,23 +160,45 @@ const InitiativeDashboard: React.FC = () => {
             <div className="p-4">
               {area.initiatives.map((initiative, index) => (
                 <div key={index} className="mb-4 p-4 bg-gray-100 rounded-lg">
-                  {editingInitiative?.areaId === area.id && editingInitiative.index === index ? (
+                  {editingInitiative?.areaId === area.id &&
+                  editingInitiative.index === index ? (
                     <EditInitiativeForm
                       initiative={initiative}
-                      onSave={updatedInitiative => handleSaveInitiative(area.id, updatedInitiative.id,  updatedInitiative)}
+                      onSave={(updatedInitiative) =>
+                        handleSaveInitiative(
+                          area.id,
+                          updatedInitiative.id,
+                          updatedInitiative
+                        )
+                      }
                       onCancel={() => setEditingInitiative(null)}
                     />
                   ) : (
                     <>
-                      <h3 className="text-lg font-semibold mb-2">{initiative.caption}</h3>
-                      <p className="text-gray-600 mb-2">{initiative.description}</p>
-                      <p className="text-gray-600 mb-2">Location: {initiative.location}</p>
-                      <p className="text-gray-600 mb-2">Date: {initiative.date}</p>
-                      {/* <div className="flex flex-wrap gap-2 mb-2">
+                      <h3 className="text-lg font-semibold mb-2">
+                        {initiative.caption}
+                      </h3>
+                      <p className="text-gray-600 mb-2">
+                        {initiative.description}
+                      </p>
+                      <p className="text-gray-600 mb-2">
+                        Location: {initiative.location}
+                      </p>
+                      <p className="text-gray-600 mb-2">
+                        Date: {initiative.date}
+                      </p>
+                      <div className="flex flex-wrap gap-2 mb-2">
                         {initiative.images.map((img, imgIndex) => (
-                          <img key={imgIndex} src={img} alt={`Initiative ${index + 1} - Image ${imgIndex + 1}`} className="w-20 h-20 object-cover rounded" />
+                          <img
+                            key={imgIndex}
+                            src={img}
+                            alt={`Initiative ${index + 1} - Image ${
+                              imgIndex + 1
+                            }`}
+                            className="w-20 h-20 object-cover rounded"
+                          />
                         ))}
-                      </div> */}
+                      </div>
                       <div className="flex gap-2">
                         <motion.button
                           whileHover={{ scale: 1.05 }}
@@ -173,7 +211,9 @@ const InitiativeDashboard: React.FC = () => {
                         <motion.button
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
-                          onClick={() => handleDeleteInitiative(area.id, initiative.id)}
+                          onClick={() =>
+                            handleDeleteInitiative(area.id, initiative.id)
+                          }
                           className="bg-red-500 text-white p-2 rounded"
                         >
                           <Trash2 size={16} />
@@ -199,48 +239,74 @@ const InitiativeDashboard: React.FC = () => {
   );
 };
 
-
-
-
 interface EditInitiativeFormProps {
   initiative: Initiative;
   onSave: (updatedInitiative: Initiative) => void;
   onCancel: () => void;
 }
 
-const EditInitiativeForm: React.FC<EditInitiativeFormProps> = ({ initiative, onSave, onCancel }) => {
-  const [editedInitiative, setEditedInitiative] = useState<Initiative>(initiative);
+const EditInitiativeForm: React.FC<EditInitiativeFormProps> = ({
+  initiative,
+  onSave,
+  onCancel,
+}) => {
+  const [editedInitiative, setEditedInitiative] =
+    useState<Initiative>(initiative);
+  const [uploading, setUploading] = useState<boolean>(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
-    setEditedInitiative(prev => ({ ...prev, [name]: value }));
+    setEditedInitiative((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleImageChange = (index: number, value: string) => {
-    setEditedInitiative(prev => ({
-      ...prev,
-      images: prev.images.map((img, i) => (i === index ? value : img))
-    }));
-  };
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      setUploading(true);
+      try {
+        const uploadedImageUrls = await Promise.all(
+          Array.from(files).map(async (file) => {
+            const imageUrl = await uploadImage(file, initiative.id); // Upload image and get URL
+            return imageUrl;
+          })
+        );
 
-  const handleAddImage = () => {
-    setEditedInitiative(prev => ({
-      ...prev,
-      images: [...prev.images, "image"]
-    }));
+        setEditedInitiative((prev) => ({
+          ...prev,
+          images: [...prev.images, ...uploadedImageUrls],
+        }));
+      } catch (error) {
+        console.error("Failed to upload images:", error);
+      } finally {
+        setUploading(false);
+      }
+    }
   };
 
   const handleRemoveImage = (index: number) => {
-    setEditedInitiative(prev => ({
+    setEditedInitiative((prev) => ({
       ...prev,
-      images: prev.images.filter((_, i) => i !== index)
+      images: prev.images.filter((_, i) => i !== index),
     }));
   };
 
   return (
-    <form onSubmit={(e) => { e.preventDefault(); onSave(editedInitiative); }} className="space-y-4">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        onSave(editedInitiative);
+      }}
+      className="space-y-4"
+    >
       <div>
-        <label htmlFor="caption" className="block text-sm font-medium text-gray-700">Caption</label>
+        <label
+          htmlFor="caption"
+          className="block text-sm font-medium text-gray-700"
+        >
+          Caption
+        </label>
         <input
           type="text"
           id="caption"
@@ -251,7 +317,12 @@ const EditInitiativeForm: React.FC<EditInitiativeFormProps> = ({ initiative, onS
         />
       </div>
       <div>
-        <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description</label>
+        <label
+          htmlFor="description"
+          className="block text-sm font-medium text-gray-700"
+        >
+          Description
+        </label>
         <textarea
           id="description"
           name="description"
@@ -262,7 +333,12 @@ const EditInitiativeForm: React.FC<EditInitiativeFormProps> = ({ initiative, onS
         ></textarea>
       </div>
       <div>
-        <label htmlFor="location" className="block text-sm font-medium text-gray-700">Location</label>
+        <label
+          htmlFor="location"
+          className="block text-sm font-medium text-gray-700"
+        >
+          Location
+        </label>
         <input
           type="text"
           id="location"
@@ -273,7 +349,12 @@ const EditInitiativeForm: React.FC<EditInitiativeFormProps> = ({ initiative, onS
         />
       </div>
       <div>
-        <label htmlFor="date" className="block text-sm font-medium text-gray-700">Date</label>
+        <label
+          htmlFor="date"
+          className="block text-sm font-medium text-gray-700"
+        >
+          Date
+        </label>
         <input
           type="date"
           id="date"
@@ -284,7 +365,35 @@ const EditInitiativeForm: React.FC<EditInitiativeFormProps> = ({ initiative, onS
         />
       </div>
       <div>
-        
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Images
+        </label>
+        <input
+          type="file"
+          multiple
+          onChange={handleImageUpload}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+        />
+        {uploading && <p>Uploading images...</p>}
+        <div className="flex flex-wrap gap-2 mt-2">
+          {editedInitiative.images.map((img, index) => (
+            <div key={index} className="relative">
+              <img
+                src={img}
+                alt={`Initiative image ${index + 1}`}
+                className="w-20 h-20 object-cover rounded"
+              />
+              <motion.button
+                type="button"
+                onClick={() => handleRemoveImage(index)}
+                className="absolute top-0 right-0 p-1 bg-red-500 rounded-full text-white"
+                whileHover={{ scale: 1.1 }}
+              >
+                <X size={12} />
+              </motion.button>
+            </div>
+          ))}
+        </div>
       </div>
       <div className="flex justify-end space-x-2">
         <motion.button
@@ -310,4 +419,3 @@ const EditInitiativeForm: React.FC<EditInitiativeFormProps> = ({ initiative, onS
 };
 
 export default InitiativeDashboard;
-
