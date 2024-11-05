@@ -13,13 +13,17 @@ import {
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface CollaboratorProps {
-  src: any;
-  alt: string;
+  src: any
+  alt: string
+  isLast?: boolean
+  totalItems: number
 }
 
-const Collaborator: React.FC<CollaboratorProps> = ({ src, alt }) => {
+const Collaborator: React.FC<CollaboratorProps> = ({ src, alt, isLast, totalItems }) => {
   return (
-    <div className="flex items-center justify-center h-full">
+    <div className={`${
+      isLast && totalItems % 2 !== 0 ? 'col-span-2 sm:col-span-2 max-w-[200px]' : ''
+    }`}>
       <div className="bg-white rounded-lg shadow-lg p-4 w-40 h-40 flex items-center justify-center">
         <div className="relative w-full h-full">
           <Image
@@ -76,15 +80,15 @@ export default function Collaborations() {
 
         {/* Mobile View */}
         <div className="md:hidden">
-          <div className="grid grid-cols-2 gap-4 mx-auto justify-center">
+          <div className="grid grid-cols-2 gap-4 mx-auto place-items-center">
             {collaborators.map((collaborator, index) => (
-              <Collaborator key={index} {...collaborator} />
+              <Collaborator 
+                key={index} 
+                {...collaborator} 
+                isLast={index === collaborators.length - 1}
+                totalItems={collaborators.length}
+              />
             ))}
-
-            {/* Add an invisible item if there's an odd number of items */}
-            {collaborators.length % 2 !== 0 && (
-              <div className="col-span-1"></div>
-            )}
           </div>
         </div>
 
@@ -98,11 +102,8 @@ export default function Collaborations() {
               <div className="flex space-x-8">
                 {[...Array(5)].map((_, i) => (
                   <Collaborator
-                    key={i}
-                    {...collaborators[
-                      (currentIndex + i) % collaborators.length
-                    ]}
-                  />
+                    totalItems={0} key={i}
+                    {...collaborators[(currentIndex + i) % collaborators.length]}                  />
                 ))}
               </div>
             </div>
