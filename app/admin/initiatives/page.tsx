@@ -1,160 +1,131 @@
-"use client"
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Trash2, Edit, Plus, ChevronDown, ChevronUp, X } from 'lucide-react';
+"use client";
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { Trash2, Edit, Plus, ChevronDown, ChevronUp, X } from "lucide-react";
+import { addInitiativeFB, deleteInitiativeFB, fetchFocusAreas, updateInitiativeFB } from "@/api";
+import { Initiative, InitiativeFocusArea } from "@/types";
 
-interface Initiative {
-  images: string[];
-  caption: string;
-  description: string;
-}
 
-interface InitiativeFocusArea {
-  id: string;
-  name: string;
-  initiatives: Initiative[];
-}
-
-const initiativeFocusAreas: InitiativeFocusArea[] = [
-  {
-    id: "education",
-    name: "Education",
-    initiatives: [
-      {
-        images: ["/placeholder.svg?height=300&width=400","/placeholder.svg?height=300&width=400","/placeholder.svg?height=300&width=400"],
-        caption: "Literacy campaign in rural areas",
-        description: "A comprehensive literacy program targeting rural communities to improve reading and writing skills."
-      },
-      {
-        images: ["/placeholder.svg?height=300&width=400","/placeholder.svg?height=300&width=400","/placeholder.svg?height=300&width=400"],
-        caption: "Computer education for underprivileged children",
-        description: "Providing computer literacy and basic programming skills to underprivileged children to bridge the digital divide."
-      },
-      {
-        images: ["/placeholder.svg?height=300&width=400","/placeholder.svg?height=300&width=400","/placeholder.svg?height=300&width=400"],
-        caption: "Adult education programs",
-        description: "Offering continuing education opportunities for adults to enhance their skills and knowledge."
-      },
-    ],
-  },
-  {
-    id: "environment",
-    name: "Environment",
-    initiatives: [
-      {
-        images: ["/placeholder.svg?height=300&width=400","/placeholder.svg?height=300&width=400","/placeholder.svg?height=300&width=400"],
-        caption: "Tree plantation drive",
-        description: "Organizing large-scale tree planting events to combat deforestation and promote environmental awareness."
-      },
-      {
-        images: ["/placeholder.svg?height=300&width=400","/placeholder.svg?height=300&width=400","/placeholder.svg?height=300&width=400"],
-        caption: "Plastic-free campus campaign",
-        description: "Implementing measures to reduce plastic usage on campus and promote eco-friendly alternatives."
-      },
-      {
-        images: ["/placeholder.svg?height=300&width=400","/placeholder.svg?height=300&width=400","/placeholder.svg?height=300&width=400"],
-        caption: "Water conservation project",
-        description: "Developing and implementing strategies to conserve water resources in the local community."
-      },
-    ],
-  },
-  {
-    id: "health",
-    name: "Health",
-    initiatives: [
-      {
-        images: ["/placeholder.svg?height=300&width=400","/placeholder.svg?height=300&width=400","/placeholder.svg?height=300&width=400"],
-        caption: "Blood donation camp",
-        description: "Organizing regular blood donation drives to support local healthcare facilities."
-      },
-      {
-        images: ["/placeholder.svg?height=300&width=400","/placeholder.svg?height=300&width=400","/placeholder.svg?height=300&width=400"],
-        caption: "COVID-19 awareness program",
-        description: "Educating the community about COVID-19 prevention measures and vaccination importance."
-      },
-      {
-        images: ["/placeholder.svg?height=300&width=400","/placeholder.svg?height=300&width=400","/placeholder.svg?height=300&width=400"],
-        caption: "Yoga and meditation workshop",
-        description: "Conducting workshops to promote mental and physical well-being through yoga and meditation practices."
-      },
-    ],
-  },
-  {
-    id: "community",
-    name: "Community Service",
-    initiatives: [
-      {
-        images: ["/placeholder.svg?height=300&width=400","/placeholder.svg?height=300&width=400","/placeholder.svg?height=300&width=400"],
-        caption: "Village adoption program",
-        description: "Adopting nearby villages to provide comprehensive development support and resources."
-      },
-      {
-        images: ["/placeholder.svg?height=300&width=400","/placeholder.svg?height=300&width=400","/placeholder.svg?height=300&width=400"],
-        caption: "Cleanliness drive in local community",
-        description: "Organizing regular clean-up events to maintain cleanliness in local neighborhoods."
-      },
-      {
-        images: ["/placeholder.svg?height=300&width=400","/placeholder.svg?height=300&width=400","/placeholder.svg?height=300&width=400"],
-        caption: "Elderly care initiative",
-        description: "Providing support and companionship to elderly members of the community through various programs."
-      },
-    ],
-  },
-];
 
 const InitiativeDashboard: React.FC = () => {
-  const [focusAreas, setFocusAreas] = useState<InitiativeFocusArea[]>(initiativeFocusAreas);
+  const [focusAreas, setFocusAreas] = useState<InitiativeFocusArea[]>([]);
   const [expandedArea, setExpandedArea] = useState<string | null>(null);
   const [editingInitiative, setEditingInitiative] = useState<{ areaId: string; index: number } | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
+  
+  // Fetch data from Firestore
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const data = await fetchFocusAreas(); // Fetch data using the separate function
+        setFocusAreas(data);
+      } catch (error) {
+        console.error("Error loading data:", error);
+      }
+    };
 
-  const handleDeleteInitiative = (areaId: string, index: number) => {
-    setFocusAreas(prevAreas => 
-      prevAreas.map(area => 
-        area.id === areaId 
-          ? { ...area, initiatives: area.initiatives.filter((_, i) => i !== index) }
-          : area
-      )
-    );
+    loadData();
+  }, []);
+
+ 
+
+  const handleDeleteInitiative = async (areaId: string, initiativeId: string) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      await deleteInitiativeFB(areaId, initiativeId); // Call delete function
+      setSuccess("Initiative deleted successfully!");
+
+      // Remove initiative from the local state
+      setFocusAreas((prevAreas) =>
+        prevAreas.map((area) =>
+          area.id === areaId
+            ? {
+                ...area,
+                initiatives: area.initiatives.filter(
+                  (initiative) => initiative.id !== initiativeId
+                ),
+              }
+            : area
+        )
+      );
+      console.log("Initiative successfully deleted:", initiativeId);
+    } catch (error) {
+      console.error("Error in handleDeleteInitiative:", error);
+      setError("Failed to delete initiative.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleEditInitiative = (areaId: string, index: number) => {
     setEditingInitiative({ areaId, index });
   };
 
-  const handleSaveInitiative = (areaId: string, index: number, updatedInitiative: Initiative) => {
-    setFocusAreas(prevAreas => 
-      prevAreas.map(area => 
-        area.id === areaId 
-          ? { 
-              ...area, 
-              initiatives: area.initiatives.map((init, i) => 
-                i === index ? updatedInitiative : init
-              ) 
-            }
-          : area
-      )
-    );
-    setEditingInitiative(null);
+  const handleSaveInitiative = async (areaId: string, initiativeId: string, updatedInitiative: Initiative) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      await updateInitiativeFB(areaId, updatedInitiative, initiativeId); // Overwrite the initiative document in Firestore
+      setSuccess("Initiative updated successfully!");
+
+      setFocusAreas((prevAreas) =>
+        prevAreas.map((area) =>
+          area.id === areaId
+            ? {
+                ...area,
+                initiatives: area.initiatives.map((initiative) =>
+                  initiative.id === initiativeId ? updatedInitiative : initiative
+                ),
+              }
+            : area
+        )
+      );
+      setEditingInitiative(null);
+    } catch (error) {
+      console.error("Error in handleSaveInitiative:", error);
+      setError("Failed to update initiative.");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleAddInitiative = (areaId: string) => {
+  const handleAddInitiative = async (areaId: string) => {
     const newInitiative: Initiative = {
-      images: ["/placeholder.svg?height=300&width=400"],
+      id: Date.now().toString(),
+      images: ["Image"],
       caption: "New Initiative",
-      description: "Description for the new initiative."
+      description: "Description for the new initiative.",
+      location: "Default Location",
+      date: new Date().toISOString().slice(0, 10)
     };
 
-    setFocusAreas(prevAreas => 
-      prevAreas.map(area => 
-        area.id === areaId 
-          ? { ...area, initiatives: [...area.initiatives, newInitiative] }
-          : area
-      )
-    );
+    try {
+      await addInitiativeFB(areaId, newInitiative, newInitiative.id); // Call the modular add function
+      setSuccess("Initiative added successfully!");
+
+      // Update the state to include the new initiative without refetching
+      setFocusAreas(prevAreas =>
+        prevAreas.map(area =>
+          area.id === areaId
+            ? { ...area, initiatives: [...area.initiatives, newInitiative] }
+            : area
+        )
+      );
+    } catch (error) {
+      setError("error");
+    } finally {
+      setLoading(false);
+    }
   };
 
+
   const toggleExpandArea = (areaId: string) => {
-    setExpandedArea(prevArea => prevArea === areaId ? null : areaId);
+    setExpandedArea(prevArea => (prevArea === areaId ? null : areaId));
   };
 
   return (
@@ -162,7 +133,7 @@ const InitiativeDashboard: React.FC = () => {
       <h1 className="text-3xl font-bold mb-6 text-blue-600">Initiative Dashboard</h1>
       {focusAreas.map(area => (
         <div key={area.id} className="mb-8 bg-white shadow-lg rounded-lg overflow-hidden">
-          <div 
+          <div
             className="bg-blue-500 text-white p-4 flex justify-between items-center cursor-pointer"
             onClick={() => toggleExpandArea(area.id)}
           >
@@ -176,18 +147,20 @@ const InitiativeDashboard: React.FC = () => {
                   {editingInitiative?.areaId === area.id && editingInitiative.index === index ? (
                     <EditInitiativeForm
                       initiative={initiative}
-                      onSave={(updatedInitiative) => handleSaveInitiative(area.id, index, updatedInitiative)}
+                      onSave={updatedInitiative => handleSaveInitiative(area.id, updatedInitiative.id,  updatedInitiative)}
                       onCancel={() => setEditingInitiative(null)}
                     />
                   ) : (
                     <>
                       <h3 className="text-lg font-semibold mb-2">{initiative.caption}</h3>
                       <p className="text-gray-600 mb-2">{initiative.description}</p>
-                      <div className="flex flex-wrap gap-2 mb-2">
+                      <p className="text-gray-600 mb-2">Location: {initiative.location}</p>
+                      <p className="text-gray-600 mb-2">Date: {initiative.date}</p>
+                      {/* <div className="flex flex-wrap gap-2 mb-2">
                         {initiative.images.map((img, imgIndex) => (
                           <img key={imgIndex} src={img} alt={`Initiative ${index + 1} - Image ${imgIndex + 1}`} className="w-20 h-20 object-cover rounded" />
                         ))}
-                      </div>
+                      </div> */}
                       <div className="flex gap-2">
                         <motion.button
                           whileHover={{ scale: 1.05 }}
@@ -200,7 +173,7 @@ const InitiativeDashboard: React.FC = () => {
                         <motion.button
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
-                          onClick={() => handleDeleteInitiative(area.id, index)}
+                          onClick={() => handleDeleteInitiative(area.id, initiative.id)}
                           className="bg-red-500 text-white p-2 rounded"
                         >
                           <Trash2 size={16} />
@@ -226,6 +199,9 @@ const InitiativeDashboard: React.FC = () => {
   );
 };
 
+
+
+
 interface EditInitiativeFormProps {
   initiative: Initiative;
   onSave: (updatedInitiative: Initiative) => void;
@@ -243,14 +219,14 @@ const EditInitiativeForm: React.FC<EditInitiativeFormProps> = ({ initiative, onS
   const handleImageChange = (index: number, value: string) => {
     setEditedInitiative(prev => ({
       ...prev,
-      images: prev.images.map((img, i) => i === index ? value : img)
+      images: prev.images.map((img, i) => (i === index ? value : img))
     }));
   };
 
   const handleAddImage = () => {
     setEditedInitiative(prev => ({
       ...prev,
-      images: [...prev.images, "/placeholder.svg?height=300&width=400"]
+      images: [...prev.images, "image"]
     }));
   };
 
@@ -286,35 +262,29 @@ const EditInitiativeForm: React.FC<EditInitiativeFormProps> = ({ initiative, onS
         ></textarea>
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">Images</label>
-        {editedInitiative.images.map((img, index) => (
-          <div key={index} className="flex items-center mb-2">
-            <input
-              type="text"
-              value={img}
-              onChange={(e) => handleImageChange(index, e.target.value)}
-              className="flex-grow rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-            />
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              type="button"
-              onClick={() => handleRemoveImage(index)}
-              className="ml-2 p-2 bg-red-500 text-white rounded"
-            >
-              <X size={16} />
-            </motion.button>
-          </div>
-        ))}
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          type="button"
-          onClick={handleAddImage}
-          className="mt-2 p-2 bg-green-500 text-white rounded flex items-center"
-        >
-          <Plus size={16} className="mr-2" /> Add Image
-        </motion.button>
+        <label htmlFor="location" className="block text-sm font-medium text-gray-700">Location</label>
+        <input
+          type="text"
+          id="location"
+          name="location"
+          value={editedInitiative.location}
+          onChange={handleChange}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+        />
+      </div>
+      <div>
+        <label htmlFor="date" className="block text-sm font-medium text-gray-700">Date</label>
+        <input
+          type="date"
+          id="date"
+          name="date"
+          value={editedInitiative.date}
+          onChange={handleChange}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+        />
+      </div>
+      <div>
+        
       </div>
       <div className="flex justify-end space-x-2">
         <motion.button
@@ -340,3 +310,4 @@ const EditInitiativeForm: React.FC<EditInitiativeFormProps> = ({ initiative, onS
 };
 
 export default InitiativeDashboard;
+

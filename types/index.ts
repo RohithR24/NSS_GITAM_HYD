@@ -69,13 +69,19 @@ export interface InitiativeProps {
   initiatives: InitiativeCardProps[];
 }
 
+export interface Initiative {
+  id: string,
+  images: string[];
+  caption: string;
+  description: string;
+  location: string;
+  date: string;
+}
+
 export interface InitiativeFocusArea {
   id: string;
   name: string;
-  initiatives: {
-    image: string;
-    caption: string;
-  }[];
+  initiatives: Initiative[];
 }
 
 export interface ButtonProps{

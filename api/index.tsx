@@ -11,7 +11,7 @@ import {
   DocumentData,
   deleteDoc,
 } from "firebase/firestore";
-import { TeamMemberProps, TeamProps } from "@/types/index";
+import { Initiative, InitiativeFocusArea, TeamMemberProps, TeamProps } from "@/types/index";
 import {
   getStorage,
   ref,
@@ -247,5 +247,124 @@ export const deleteProfileById = async (id: number) => {
     console.log(`Profile with ID ${id} deleted successfully`);
   } catch (error) {
     console.error("Error deleting profile", error);
+  }
+};
+
+
+
+/*Focus Area */
+// Read // 
+
+export const fetchFocusAreas = async (): Promise<InitiativeFocusArea[]> => {
+  try {
+    const focusAreasCollection = collection(db, "focusAreas");
+    const focusAreasSnapshot = await getDocs(focusAreasCollection);
+
+    const focusAreas: InitiativeFocusArea[] = await Promise.all(
+      focusAreasSnapshot.docs.map(async (doc) => {
+        const data = doc.data();
+        const initiativesCollection = collection(db, `focusAreas/${doc.id}/initiatives`);
+        const initiativesSnapshot = await getDocs(initiativesCollection);
+
+        const initiatives: Initiative[] = initiativesSnapshot.docs.map((initiativeDoc) => {
+          const initiativeData = initiativeDoc.data();
+
+          // Ensure each initiative matches the Initiative interface
+          return {
+            id: initiativeData.id,
+            images: initiativeData.images || ["image"],
+            caption: initiativeData.caption || "Untitled Initiative",
+            description: initiativeData.description || "No description provided.",
+            location: initiativeData.location || "Unknown location",
+            date: initiativeData.date || new Date().toISOString().slice(0, 10),
+          };
+        });
+
+        return {
+          id: doc.id,
+          name: data.name || "Unnamed Focus Area",
+          initiatives,
+        };
+      })
+    );
+
+    return focusAreas;
+  } catch (error) {
+    console.error("Error fetching data from Firestore:", error);
+    throw error;
+  }
+};
+
+/*Write */
+/**
+ * Adds a new initiative to a specific focus area in Firestore.
+ * @param {string} focusAreaId - The ID of the focus area to add the initiative to.
+ * @param {Object} initiative - The initiative data to add.
+ * @returns {Promise<void>}
+ */
+
+interface addInitiativeProps {
+  focusAreaId: any
+  initiative:  any,
+  initiativeId : any
+}
+export const addInitiativeFB = async (focusAreaId: string, initiative: Initiative, initiativeId: string) => {
+  try {
+    console.log('Rohith Reddy in saving')
+    // Reference to the initiatives collection within the specific focus area
+    const initiativeDocRef = doc(db, `focusAreas/${focusAreaId}/initiatives`, initiativeId);
+    await setDoc(initiativeDocRef, initiative);
+  } catch (error) {
+    console.error("Error adding initiative to Firestore:", error);
+    throw new Error("Failed to add initiative. Please try again.");
+  }
+};
+
+
+/**
+ * Updates an initiative in the Firestore subcollection with a specific ID.
+ * @param {string} focusAreaId - The ID of the focus area.
+ * @param {string} initiativeId - The unique ID of the initiative to update.
+ * @param {Initiative} initiative - The updated initiative data.
+ * @returns {Promise<void>}
+ */
+export const updateInitiativeFB = async (focusAreaId: string, initiative: Initiative, initiativeId: string) => {
+  try {
+    const initiativeDocRef = doc(db, `focusAreas/${focusAreaId}/initiatives`, initiativeId);
+    await setDoc(initiativeDocRef, initiative); // Overwrites the document with the provided data
+    console.log("Document successfully updated:", initiative);
+  } catch (error) {
+    console.error("Error updating document in Firestore:", error);
+    throw new Error("Failed to update initiative. Please check your Firebase configuration.");
+  }
+};
+
+/**
+ * Deletes an initiative from the Firestore subcollection with a specific ID.
+ * @param {string} focusAreaId - The ID of the focus area.
+ * @param {string} initiativeId - The unique ID of the initiative to delete.
+ * @returns {Promise<void>}
+ */
+export const deleteInitiativeFB = async (focusAreaId: string, initiativeId: string) => {
+  try {
+    const initiativeDocRef = doc(db, `focusAreas/${focusAreaId}/initiatives`, initiativeId);
+    await deleteDoc(initiativeDocRef);
+    console.log("Document successfully deleted:", initiativeId);
+  } catch (error) {
+    console.error("Error deleting document from Firestore:", error);
+    throw new Error("Failed to delete initiative. Please check your Firebase configuration.");
+  }
+};
+
+export const uploadImage = async (file: File, initiativeId: string) => {
+  try {
+    const storage = getStorage();
+    const storageRef = ref(storage, `initiatives/${initiativeId}/${file.name}`);
+    await uploadBytes(storageRef, file);
+    const downloadURL = await getDownloadURL(storageRef);
+    return downloadURL;
+  } catch (error) {
+    console.error("Error uploading image:", error);
+    throw new Error("Failed to upload image. Please try again.");
   }
 };
