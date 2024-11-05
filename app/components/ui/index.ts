@@ -11,6 +11,8 @@ import TeamCard from "./TeamCard";
 import CollapsibleList from "./CollapsibleList";
 import Weather from "./Weather";
 import {TeamCarousel} from './TeamCarousel ' ;
+import InitiativesModal from './InitiativesModal'
+
 export {
   Card,
   StatCard,
@@ -24,5 +26,6 @@ export {
   CollapsibleList,
   TeamCard,
   Weather,
-  TeamCarousel
+  TeamCarousel,
+  InitiativesModal
 };

@@ -72,11 +72,6 @@ export const TeamMemberCard: React.FC<{
           objectFit="cover"
           className="rounded-full border-4 border-[#000040]"
         />
-        {/* {isHead && (
-          <div className="absolute -top-2 -right-2 bg-[#cc4444] text-white text-xs font-bold px-2 py-1 rounded-full">
-            Head
-          </div>
-        )} */}
       </div>
 
       <h3

@@ -1,12 +1,24 @@
 "use client";
 
 import React, { useState } from "react";
-import { Gallery, Tabs } from "@/app/components/ui/index";
+import { Gallery, Tabs, InitiativesModal } from "@/app/components/ui/index";
 import { initiativeFocusAreas } from "@/constants";
 
 export default function Initiatives() {
   // Only track the active tab in the state
   const [activeTab, setActiveTab] = useState(initiativeFocusAreas[0].id);
+  const [isOpen, setIsOpen] = useState(false);
+
+  // const openModal = () => {
+  //   setIsOpen(true)
+  // }
+
+  // const closeModal = () => {
+  //   console.log('Testing')
+  //   setIsOpen(false)};
+// Open and close modal functions
+const openModal = () => setIsOpen(true);
+const closeModal = () => setIsOpen(false);
 
   // Get selected initiative dynamically from the focusAreas array
   const selectedInitiative = initiativeFocusAreas.find(
@@ -41,11 +53,18 @@ export default function Initiatives() {
       />
 
       {/* Gallery */}
-      <Gallery
-        id={selectedInitiative.id}
-        name={selectedInitiative.name}
-        initiatives={selectedInitiative.initiatives}
-      />
+      <div onClick={openModal}>
+        <Gallery
+          id={selectedInitiative.id}
+          name={selectedInitiative.name}
+          initiatives={selectedInitiative.initiatives}
+        />
+      </div>
+
+      {/* Initiatives Modal */}
+      {isOpen && (
+        <InitiativesModal isModelOpen={isOpen} closeModal={closeModal} />
+      )}
     </div>
   );
 }
