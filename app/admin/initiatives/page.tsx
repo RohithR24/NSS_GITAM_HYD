@@ -250,8 +250,7 @@ const EditInitiativeForm: React.FC<EditInitiativeFormProps> = ({
   onSave,
   onCancel,
 }) => {
-  const [editedInitiative, setEditedInitiative] =
-    useState<Initiative>(initiative);
+  const [editedInitiative, setEditedInitiative] = useState<Initiative>(initiative);
   const [uploading, setUploading] = useState<boolean>(false);
 
   const handleChange = (
@@ -409,7 +408,8 @@ const EditInitiativeForm: React.FC<EditInitiativeFormProps> = ({
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           type="submit"
-          className="px-4 py-2 bg-blue-500 text-white rounded"
+          className={`px-4 py-2 rounded ${uploading ? "bg-gray-400" : "bg-blue-500 text-white"}`}
+          disabled={uploading} // Disable the button when uploading is true
         >
           Save
         </motion.button>
