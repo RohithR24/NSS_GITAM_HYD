@@ -98,7 +98,7 @@ export const TeamMemberCard: React.FC<{
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
             transition={{ duration: 0.2 }}
-            className="text-sm text-[#cc4444] font-medium py-1 px-3 bg-[#fff0f0] rounded-full"
+            className="flex items-center justify-center text-sm text-[#cc4444] font-medium py-1 px-3 bg-[#fff0f0] rounded-full"
           >
             {member.role}
           </motion.p>
