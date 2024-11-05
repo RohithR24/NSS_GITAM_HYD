@@ -1,14 +1,20 @@
-"use client"
+"use client";
 
-import React, { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import Image from 'next/image'
-import { TJIYLC, NtrTrust, LionsClub, GHMC1, HarithHaramLogo } from "../../../public/images/index"
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
+import {
+  TJIYLC,
+  NtrTrust,
+  LionsClub,
+  GHMC1,
+  HarithHaramLogo,
+} from "../../../public/images/index";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface CollaboratorProps {
-  src: any
-  alt: string
+  src: any;
+  alt: string;
 }
 
 const Collaborator: React.FC<CollaboratorProps> = ({ src, alt }) => {
@@ -26,8 +32,8 @@ const Collaborator: React.FC<CollaboratorProps> = ({ src, alt }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default function Collaborations() {
   const collaborators = [
@@ -36,32 +42,30 @@ export default function Collaborations() {
     { src: LionsClub, alt: "Lions Club" },
     { src: GHMC1, alt: "GHMC" },
     { src: HarithHaramLogo, alt: "HarithaHaram Logo" },
-    { src: TJIYLC, alt: "TJIYLC" },
-    { src: NtrTrust, alt: "NTR Trust" },
-    { src: LionsClub, alt: "Lions Club" },
-    { src: GHMC1, alt: "GHMC" },
-    { src: HarithHaramLogo, alt: "HarithaHaram Logo" }
-    
-    // Add more collaborators if needed to ensure at least 5 are always visible
-  ]
 
-  const [currentIndex, setCurrentIndex] = useState(0)
+    // Add more collaborators if needed to ensure at least 5 are always visible
+  ];
+
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % collaborators.length)
-    }, 10000) // Change slide every 3 seconds
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % collaborators.length);
+    }, 10000); // Change slide every 3 seconds
 
-    return () => clearInterval(timer)
-  }, [])
+    return () => clearInterval(timer);
+  }, []);
 
   const nextSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % collaborators.length)
-  }
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % collaborators.length);
+  };
 
   const prevSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + collaborators.length) % collaborators.length)
-  }
+    setCurrentIndex(
+      (prevIndex) =>
+        (prevIndex - 1 + collaborators.length) % collaborators.length
+    );
+  };
 
   return (
     <section className="bg-[#000040] py-16">
@@ -69,22 +73,39 @@ export default function Collaborations() {
         <h2 className="text-4xl font-bold text-white text-center mb-12">
           Collaborations
         </h2>
-        <div className="relative">
+
+        {/* Mobile View */}
+        <div className="md:hidden">
+          <div className="grid grid-cols-2 gap-4 mx-auto justify-center">
+            {collaborators.map((collaborator, index) => (
+              <Collaborator key={index} {...collaborator} />
+            ))}
+
+            {/* Add an invisible item if there's an odd number of items */}
+            {collaborators.length % 2 !== 0 && (
+              <div className="col-span-1"></div>
+            )}
+          </div>
+        </div>
+
+        <div className="hidden md:block relative">
           <div className="overflow-hidden">
             {/* <AnimatePresence initial={false}> */}
-              <div
-                key={currentIndex}
-                className="flex justify-center items-center"
-              >
-                <div className="flex space-x-8">
-                  {[...Array(5)].map((_, i) => (
-                    <Collaborator
-                      key={i}
-                      {...collaborators[(currentIndex + i) % collaborators.length]}
-                    />
-                  ))}
-                </div>
+            <div
+              key={currentIndex}
+              className="flex justify-center items-center"
+            >
+              <div className="flex space-x-8">
+                {[...Array(5)].map((_, i) => (
+                  <Collaborator
+                    key={i}
+                    {...collaborators[
+                      (currentIndex + i) % collaborators.length
+                    ]}
+                  />
+                ))}
               </div>
+            </div>
             {/* </AnimatePresence> */}
           </div>
           <button
@@ -100,18 +121,22 @@ export default function Collaborations() {
             <ChevronRight size={24} />
           </button>
         </div>
-        <div className="flex justify-center mt-8">
-          {collaborators.map((_, index) => (
-            <button
-              key={index}
-              className={`w-3 h-3 rounded-full mx-1 ${
-                index === currentIndex ? 'bg-[#cc4444]' : 'bg-white opacity-50'
-              }`}
-              onClick={() => setCurrentIndex(index)}
-            />
-          ))}
+        <div className="hidden md:block ">
+          <div className="flex justify-center mt-8">
+            {collaborators.map((_, index) => (
+              <button
+                key={index}
+                className={`w-3 h-3 rounded-full mx-1 ${
+                  index === currentIndex
+                    ? "bg-[#cc4444]"
+                    : "bg-white opacity-50"
+                }`}
+                onClick={() => setCurrentIndex(index)}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>
-  )
+  );
 }
