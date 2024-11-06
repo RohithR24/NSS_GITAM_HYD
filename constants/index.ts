@@ -273,80 +273,80 @@ export const teamStructure = [
 ];
 
 // FocusArea interface declaration for clarity
-export const initiativeFocusAreas: InitiativeFocusArea[] = [
-  {
-    id: "education",
-    name: "Education",
-    initiatives: [
-      {
-        image: "/placeholder.svg?height=300&width=400",
-        caption: "Literacy campaign in rural areas",
-      },
-      {
-        image: "/placeholder.svg?height=300&width=400",
-        caption: "Computer education for underprivileged children",
-      },
-      {
-        image: "/placeholder.svg?height=300&width=400",
-        caption: "Adult education programs",
-      },
-    ],
-  },
-  {
-    id: "environment",
-    name: "Environment",
-    initiatives: [
-      {
-        image: "/placeholder.svg?height=300&width=400",
-        caption: "Tree plantation drive",
-      },
-      {
-        image: "/placeholder.svg?height=300&width=400",
-        caption: "Plastic-free campus campaign",
-      },
-      {
-        image: "/placeholder.svg?height=300&width=400",
-        caption: "Water conservation project",
-      },
-    ],
-  },
-  {
-    id: "health",
-    name: "Health",
-    initiatives: [
-      {
-        image: "/placeholder.svg?height=300&width=400",
-        caption: "Blood donation camp",
-      },
-      {
-        image: "/placeholder.svg?height=300&width=400",
-        caption: "COVID-19 awareness program",
-      },
-      {
-        image: "/placeholder.svg?height=300&width=400",
-        caption: "Yoga and meditation workshop",
-      },
-    ],
-  },
-  {
-    id: "community",
-    name: "Community Service",
-    initiatives: [
-      {
-        image: "/placeholder.svg?height=300&width=400",
-        caption: "Village adoption program",
-      },
-      {
-        image: "/placeholder.svg?height=300&width=400",
-        caption: "Cleanliness drive in local community",
-      },
-      {
-        image: "/placeholder.svg?height=300&width=400",
-        caption: "Elderly care initiative",
-      },
-    ],
-  },
-];
+// export const initiativeFocusAreas: InitiativeFocusArea[] = [
+//   {
+//     id: "education",
+//     name: "Education",
+//     initiatives: [
+//       {
+//         image: "/placeholder.svg?height=300&width=400",
+//         caption: "Literacy campaign in rural areas",
+//       },
+//       {
+//         image: "/placeholder.svg?height=300&width=400",
+//         caption: "Computer education for underprivileged children",
+//       },
+//       {
+//         image: "/placeholder.svg?height=300&width=400",
+//         caption: "Adult education programs",
+//       },
+//     ],
+//   },
+//   {
+//     id: "environment",
+//     name: "Environment",
+//     initiatives: [
+//       {
+//         image: "/placeholder.svg?height=300&width=400",
+//         caption: "Tree plantation drive",
+//       },
+//       {
+//         image: "/placeholder.svg?height=300&width=400",
+//         caption: "Plastic-free campus campaign",
+//       },
+//       {
+//         image: "/placeholder.svg?height=300&width=400",
+//         caption: "Water conservation project",
+//       },
+//     ],
+//   },
+//   {
+//     id: "health",
+//     name: "Health",
+//     initiatives: [
+//       {
+//         image: "/placeholder.svg?height=300&width=400",
+//         caption: "Blood donation camp",
+//       },
+//       {
+//         image: "/placeholder.svg?height=300&width=400",
+//         caption: "COVID-19 awareness program",
+//       },
+//       {
+//         image: "/placeholder.svg?height=300&width=400",
+//         caption: "Yoga and meditation workshop",
+//       },
+//     ],
+//   },
+//   {
+//     id: "community",
+//     name: "Community Service",
+//     initiatives: [
+//       {
+//         image: "/placeholder.svg?height=300&width=400",
+//         caption: "Village adoption program",
+//       },
+//       {
+//         image: "/placeholder.svg?height=300&width=400",
+//         caption: "Cleanliness drive in local community",
+//       },
+//       {
+//         image: "/placeholder.svg?height=300&width=400",
+//         caption: "Elderly care initiative",
+//       },
+//     ],
+//   },
+// ];
 
 export const teamTabTitles = [
   { id: "faculty", name: "Faculty Team" },

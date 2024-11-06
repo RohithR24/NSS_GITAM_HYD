@@ -15,6 +15,7 @@ interface ModalData {
 interface InitiativesModalProps {
   isModelOpen: boolean;
   closeModal: () => void;
+  
 }
 
 const modalData: ModalData[] = [

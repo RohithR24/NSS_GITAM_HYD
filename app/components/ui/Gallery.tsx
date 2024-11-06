@@ -28,7 +28,7 @@ const Gallery = ({id, name, initiatives}: InitiativeProps) => {
                 className="bg-white rounded-lg shadow-md overflow-hidden"
               >
                 <Image
-                  src={BookDistribution}
+                  src={initiative.images && initiative.images.length > 0 ? initiative.images[0] : ""}
                   alt={initiative.caption}
                   width={400}
                   height={300}

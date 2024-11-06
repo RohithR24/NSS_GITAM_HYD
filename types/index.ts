@@ -66,7 +66,7 @@ export interface InitiativeCardProps {
 export interface InitiativeProps {
   id: string;
   name: string;
-  initiatives: InitiativeCardProps[];
+  initiatives: Initiative[];
 }
 
 export interface Initiative {

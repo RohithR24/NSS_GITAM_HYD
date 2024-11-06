@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Trash2, Edit, Plus, ChevronDown, ChevronUp, X } from "lucide-react";
+import { Trash2, Edit, Plus, ChevronDown, ChevronUp, X, Calendar } from "lucide-react";
 import {
   addInitiativeFB,
   deleteInitiativeFB,
@@ -22,7 +22,6 @@ const InitiativeDashboard: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  // Fetch data from Firestore
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -141,7 +140,7 @@ const InitiativeDashboard: React.FC = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6 text-blue-600">
+      <h1 className="text-3xl font-bold mb-6 text-[#000040]">
         Initiative Dashboard
       </h1>
       {focusAreas.map((area) => (
@@ -150,7 +149,7 @@ const InitiativeDashboard: React.FC = () => {
           className="mb-8 bg-white shadow-lg rounded-lg overflow-hidden"
         >
           <div
-            className="bg-blue-500 text-white p-4 flex justify-between items-center cursor-pointer"
+            className="bg-[#000040] text-white p-4 flex justify-between items-center cursor-pointer"
             onClick={() => toggleExpandArea(area.id)}
           >
             <h2 className="text-xl font-semibold">{area.name}</h2>
@@ -175,7 +174,7 @@ const InitiativeDashboard: React.FC = () => {
                     />
                   ) : (
                     <>
-                      <h3 className="text-lg font-semibold mb-2">
+                      <h3 className="text-lg font-semibold mb-2 text-[#000040]">
                         {initiative.caption}
                       </h3>
                       <p className="text-gray-600 mb-2">
@@ -204,7 +203,7 @@ const InitiativeDashboard: React.FC = () => {
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           onClick={() => handleEditInitiative(area.id, index)}
-                          className="bg-yellow-500 text-white p-2 rounded"
+                          className="bg-[#cc4444] text-white p-2 rounded"
                         >
                           <Edit size={16} />
                         </motion.button>
@@ -227,7 +226,7 @@ const InitiativeDashboard: React.FC = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => handleAddInitiative(area.id)}
-                className="mt-4 bg-green-500 text-white p-2 rounded flex items-center"
+                className="mt-4 bg-[#cc4444] text-white p-2 rounded flex items-center"
               >
                 <Plus size={16} className="mr-2" /> Add New Initiative
               </motion.button>
@@ -267,7 +266,7 @@ const EditInitiativeForm: React.FC<EditInitiativeFormProps> = ({
       try {
         const uploadedImageUrls = await Promise.all(
           Array.from(files).map(async (file) => {
-            const imageUrl = await uploadImage(file, initiative.id); // Upload image and get URL
+            const imageUrl = await uploadImage(file, initiative.id);
             return imageUrl;
           })
         );
@@ -302,7 +301,7 @@ const EditInitiativeForm: React.FC<EditInitiativeFormProps> = ({
       <div>
         <label
           htmlFor="caption"
-          className="block text-sm font-medium text-gray-700"
+          className="block text-sm font-medium text-[#000040]"
         >
           Caption
         </label>
@@ -312,13 +311,13 @@ const EditInitiativeForm: React.FC<EditInitiativeFormProps> = ({
           name="caption"
           value={editedInitiative.caption}
           onChange={handleChange}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#cc4444] focus:ring focus:ring-[#cc4444] focus:ring-opacity-50"
         />
       </div>
       <div>
         <label
           htmlFor="description"
-          className="block text-sm font-medium text-gray-700"
+          className="block text-sm font-medium text-[#000040]"
         >
           Description
         </label>
@@ -328,13 +327,13 @@ const EditInitiativeForm: React.FC<EditInitiativeFormProps> = ({
           value={editedInitiative.description}
           onChange={handleChange}
           rows={3}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#cc4444] focus:ring focus:ring-[#cc4444] focus:ring-opacity-50"
         ></textarea>
       </div>
       <div>
         <label
           htmlFor="location"
-          className="block text-sm font-medium text-gray-700"
+          className="block text-sm font-medium text-[#000040]"
         >
           Location
         </label>
@@ -344,39 +343,42 @@ const EditInitiativeForm: React.FC<EditInitiativeFormProps> = ({
           name="location"
           value={editedInitiative.location}
           onChange={handleChange}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#cc4444] focus:ring focus:ring-[#cc4444] focus:ring-opacity-50"
         />
       </div>
-      <div>
+      <div className="relative">
         <label
           htmlFor="date"
-          className="block text-sm font-medium text-gray-700"
+          className="block text-sm font-medium text-[#000040]"
         >
           Date
         </label>
-        <input
-          type="date"
-          id="date"
-          name="date"
-          value={editedInitiative.date}
-          onChange={handleChange}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-        />
+        <div className="relative">
+          <input
+            type="date"
+            id="date"
+            name="date"
+            value={editedInitiative.date}
+            onChange={handleChange}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#cc4444] focus:ring focus:ring-[#cc4444] focus:ring-opacity-50 pl-10"
+          />
+          <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+        </div>
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-[#000040] mb-2">
           Images
         </label>
         <input
           type="file"
           multiple
           onChange={handleImageUpload}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#cc4444] focus:ring focus:ring-[#cc4444] focus:ring-opacity-50"
         />
         {uploading && <p>Uploading images...</p>}
         <div className="flex flex-wrap gap-2 mt-2">
           {editedInitiative.images.map((img, index) => (
-            <div key={index} className="relative">
+            <div key={index} className="relative group">
               <img
                 src={img}
                 alt={`Initiative image ${index + 1}`}
@@ -385,7 +387,7 @@ const EditInitiativeForm: React.FC<EditInitiativeFormProps> = ({
               <motion.button
                 type="button"
                 onClick={() => handleRemoveImage(index)}
-                className="absolute top-0 right-0 p-1 bg-red-500 rounded-full text-white"
+                className="absolute top-0 right-0 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
                 whileHover={{ scale: 1.1 }}
               >
                 <X size={12} />
@@ -400,16 +402,17 @@ const EditInitiativeForm: React.FC<EditInitiativeFormProps> = ({
           whileTap={{ scale: 0.95 }}
           type="button"
           onClick={onCancel}
-          className="px-4 py-2 bg-gray-300 text-gray-800 rounded"
+          className="px-4 py-2 bg-gray-300 text-[#000040] rounded"
         >
           Cancel
         </motion.button>
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
+          
           type="submit"
-          className={`px-4 py-2 rounded ${uploading ? "bg-gray-400" : "bg-blue-500 text-white"}`}
-          disabled={uploading} // Disable the button when uploading is true
+          className={`px-4 py-2 rounded ${uploading ? "bg-gray-400" : "bg-[#cc4444] text-white"}`}
+          disabled={uploading}
         >
           Save
         </motion.button>
