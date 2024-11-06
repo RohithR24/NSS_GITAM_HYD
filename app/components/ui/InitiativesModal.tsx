@@ -5,7 +5,7 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight, X, MapPin, Calendar } from "lucide-react";
 import { Initiative } from "@/types";
 import { logo, NewGitamLogo } from "@/public/images";
-
+import {formatDate} from '@/utility'
 interface ModalData {
   title: string;
   images: string[];
@@ -28,7 +28,8 @@ const modalData: ModalData[] = [
       "/placeholder.svg?height=400&width=600&text=Clean-up+2",
       "/placeholder.svg?height=400&width=600&text=Clean-up+3",
     ],
-    content: "Join us for a community-wide clean-up initiative to make our neighborhood cleaner and greener. We'll be focusing on local parks and streets, providing all necessary equipment.",
+    content:
+      "Join us for a community-wide clean-up initiative to make our neighborhood cleaner and greener. We'll be focusing on local parks and streets, providing all necessary equipment.",
     location: "Central Park, Hyderabad",
     date: "July 15, 2023",
   },
@@ -39,13 +40,18 @@ const modalData: ModalData[] = [
       "/placeholder.svg?height=400&width=600&text=Workshop+2",
       "/placeholder.svg?height=400&width=600&text=Workshop+3",
     ],
-    content: "Participate in our educational workshop series covering topics from environmental sustainability to digital literacy. Expert speakers will guide interactive sessions.",
+    content:
+      "Participate in our educational workshop series covering topics from environmental sustainability to digital literacy. Expert speakers will guide interactive sessions.",
     location: "GITAM University Auditorium",
     date: "August 5-7, 2023",
   },
 ];
 
-export default function InitiativesModal({ isModelOpen, closeModal, initiativeData }: InitiativesModalProps) {
+export default function InitiativesModal({
+  isModelOpen,
+  closeModal,
+  initiativeData,
+}: InitiativesModalProps) {
   const [currentModalIndex, setCurrentModalIndex] = useState(0);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -103,11 +109,13 @@ export default function InitiativesModal({ isModelOpen, closeModal, initiativeDa
                 className="rounded-full border border-gray-200"
               />
               <div className="ml-3">
-              <h4 className="font-semibold text-white">{initiativeData.caption}</h4>
-              <div className="flex items-center text-sm text-gray-500 mt-1">
-                <MapPin size={14} className="mr-1" />
-                <span>{initiativeData.location}</span>
-              </div>
+                <h4 className="font-semibold text-white">
+                  {initiativeData.caption}
+                </h4>
+                <div className="flex items-center text-sm text-gray-500 mt-1">
+                  <MapPin size={14} className="mr-1" />
+                  <span>{initiativeData.location}</span>
+                </div>
               </div>
             </div>
             <button
@@ -121,17 +129,24 @@ export default function InitiativesModal({ isModelOpen, closeModal, initiativeDa
         </div>
 
         <div className="relative flex-grow overflow-hidden">
-          <div className="flex h-full transition-transform duration-300 ease-in-out" style={{ transform: `translateX(-${currentImageIndex * 100}%)` }}>
-            {initiativeData.images.length > 0 && initiativeData.images.map((image:string, index: number) => (
-              <div key={index} className="flex-shrink-0 w-full h-full relative">
-                <Image
-                  src={image}
-                  alt={`Image ${index + 1}`}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            ))}
+          <div
+            className="flex h-full transition-transform duration-300 ease-in-out"
+            style={{ transform: `translateX(-${currentImageIndex * 100}%)` }}
+          >
+            {initiativeData.images.length > 0 &&
+              initiativeData.images.map((image: string, index: number) => (
+                <div
+                  key={index}
+                  className="flex-shrink-0 w-full h-full relative"
+                >
+                  <Image
+                    src={image}
+                    alt={`Image ${index + 1}`}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              ))}
           </div>
           <button
             onClick={prevImage}
@@ -148,18 +163,16 @@ export default function InitiativesModal({ isModelOpen, closeModal, initiativeDa
             <ChevronRight size={24} />
           </button>
         </div>
-        
+
         <div className="p-4 bg-white overflow-y-auto">
-        <div className="flex items-center py-4 text-xs text-gray-500">
-              <Calendar size={14} className="mr-1" />
-              <span>{initiativeData.date}</span>
-            </div>
+          <div className="flex items-center py-4 text-xs text-gray-500">
+            <Calendar size={14} className="mr-1" />
+            <span>{formatDate(initiativeData.date)}</span>
+          </div>
           <div className="space-y-4">
             <p className="text-[#000040] text-sm">
               {initiativeData.description}
             </p>
-
-            
 
             <div className="flex justify-between items-center pt-2 border-t border-gray-100">
               <div className="flex space-x-2">

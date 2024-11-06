@@ -36,3 +36,15 @@ export function calculateTimeDifference(eventDate, now) {
     return "Event has started";
   }
 }
+
+
+export function formatDate(dateString) {
+  // Create a new Date object from the input string
+  const date = new Date(dateString);
+  
+  // Define options for date formatting
+  const options = { year: 'numeric', month: 'long', day: '2-digit' };
+  
+  // Format the date using toLocaleDateString with the options
+  return date.toLocaleDateString('en-US', options);
+}
