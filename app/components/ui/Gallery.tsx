@@ -1,16 +1,22 @@
 "use client"
 import { BookDistribution } from "@/public/images";
-import { InitiativeProps } from "@/types";
+import { Initiative, InitiativeProps } from "@/types";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from 'next/image'
 import React, { useEffect, useState } from "react";
+import { InitiativesModal } from "@/app/components/ui/index";
 
   
 const Gallery = ({id, name, initiatives}: InitiativeProps) => {
 
+    const [isOpen, setIsOpen] = useState(false);
     const [activeTab, setActiveTab] = useState(id);
-    //const [selectedInitiative, setSelectedInitiative] = useState(teamData.faculty);
-    
+    const [initiative, setInitiative] = useState<Initiative> ();
+    const openModal = (initiative : Initiative) => {
+      setInitiative(initiative);
+      setIsOpen(true);
+    };
+    const closeModal = () => setIsOpen(false);
   return (
     <div>  
       <AnimatePresence mode="wait">
@@ -24,6 +30,7 @@ const Gallery = ({id, name, initiatives}: InitiativeProps) => {
         >
           {initiatives.map((initiative, index) => (
               <div
+                onClick={() => openModal(initiative)}
                 key={index}
                 className="bg-white rounded-lg shadow-md overflow-hidden"
               >
@@ -41,6 +48,11 @@ const Gallery = ({id, name, initiatives}: InitiativeProps) => {
             ))}
         </motion.div>
       </AnimatePresence>
+
+      {/* Initiatives Modal */}
+      {isOpen && (
+        <InitiativesModal isModelOpen={isOpen} closeModal={closeModal}  initiativeData={initiative}/>
+      )}
     </div>
   );
 };

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Gallery, InitiativesModal } from "@/app/components/ui/index";
+import { Gallery } from "@/app/components/ui/index";
 import { ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { fetchFocusAreas } from "@/api"; // Import Firebase data fetching function
@@ -10,13 +10,11 @@ import { InitiativeFocusArea } from "@/types";
 export default function Initiatives() {
   const [focusAreas, setFocusAreas] = useState<InitiativeFocusArea[]>([]);
   const [activeTab, setActiveTab] = useState<string | null>(null);
-  const [isOpen, setIsOpen] = useState(false);
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const openModal = () => setIsOpen(true);
-  const closeModal = () => setIsOpen(false);
+  
 
   // Fetch data from Firebase
   useEffect(() => {
@@ -86,7 +84,7 @@ export default function Initiatives() {
                   transition={{ duration: 0.2 }}
                   className="overflow-hidden"
                 >
-                  <div className="p-4 bg-white" onClick={openModal}>
+                  <div className="p-4 bg-white">
                     <Gallery
                       id={area.id}
                       name={area.name}
@@ -119,19 +117,14 @@ export default function Initiatives() {
             ))}
           </div>
         </div>
-        <div onClick={openModal}>
+        <div>
           <Gallery
             id={selectedInitiative.id}
             name={selectedInitiative.name}
             initiatives={selectedInitiative.initiatives}
           />
         </div>
-      </div>
-
-      {/* Initiatives Modal */}
-      {isOpen && (
-        <InitiativesModal isModelOpen={isOpen} closeModal={closeModal}  />
-      )}
+      </div>      
     </div>
   );
 }

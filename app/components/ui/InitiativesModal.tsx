@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, X, MapPin, Calendar } from "lucide-react";
+import { Initiative } from "@/types";
 
 interface ModalData {
   title: string;
@@ -15,7 +16,8 @@ interface ModalData {
 interface InitiativesModalProps {
   isModelOpen: boolean;
   closeModal: () => void;
-  
+  initiativeData: Initiative | any;
+
 }
 
 const modalData: ModalData[] = [
@@ -43,7 +45,7 @@ const modalData: ModalData[] = [
   },
 ];
 
-export default function InitiativesModal({ isModelOpen, closeModal }: InitiativesModalProps) {
+export default function InitiativesModal({ isModelOpen, closeModal, initiativeData }: InitiativesModalProps) {
   const [currentModalIndex, setCurrentModalIndex] = useState(0);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -91,7 +93,7 @@ export default function InitiativesModal({ isModelOpen, closeModal }: Initiative
       <div className="bg-white w-[90vw] max-w-4xl h-[90vh] rounded-lg overflow-hidden flex flex-col">
         <div className="bg-[#000040] text-white p-4 flex justify-between items-center">
           <h3 className="text-xl font-semibold">
-            {modalData[currentModalIndex].title}
+            {initiativeData.caption}
           </h3>
           <button
             onClick={closeModal}
@@ -104,7 +106,7 @@ export default function InitiativesModal({ isModelOpen, closeModal }: Initiative
 
         <div className="relative flex-grow overflow-hidden">
           <div className="flex h-full transition-transform duration-300 ease-in-out" style={{ transform: `translateX(-${currentImageIndex * 100}%)` }}>
-            {modalData[currentModalIndex].images.map((image, index) => (
+            {initiativeData.images.length> 0 && initiativeData.images.map((image:string, index: number) => (
               <div key={index} className="flex-shrink-0 w-full h-full relative">
                 <Image
                   src={image}
@@ -133,17 +135,17 @@ export default function InitiativesModal({ isModelOpen, closeModal }: Initiative
 
         <div className="p-6 bg-white overflow-y-auto">
           <p className="text-[#000040] mb-4">
-            {modalData[currentModalIndex].content}
+            {initiativeData.description}
           </p>
 
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center text-sm text-[#000040] mb-4">
             <div className="flex items-center mb-2 sm:mb-0">
               <MapPin size={16} className="mr-2 text-[#cc4444]" />
-              <span>{modalData[currentModalIndex].location}</span>
+              <span>{initiativeData.location}</span>
             </div>
             <div className="flex items-center">
               <Calendar size={16} className="mr-2 text-[#cc4444]" />
-              <span>{modalData[currentModalIndex].date}</span>
+              <span>{initiativeData.date}</span>
             </div>
           </div>
 
