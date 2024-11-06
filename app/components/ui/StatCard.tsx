@@ -43,25 +43,36 @@ export const StatCard: React.FC<StatCardProps> = ({
   return (
     <motion.div
       ref={ref}
-      className=" bg-[#b7c4ff] rounded-lg shadow-lg hover:shadow-5xl transition-all duration-300 ease-in-out card flex flex-col items-center justify-between p-6 min-h-36 hover:shadow-nssRed-dark"
+      className="bg-white rounded-xl shadow-lg transition-all duration-300 ease-in-out p-8 min-h-[200px] flex flex-col items-center justify-center gap-6 hover:shadow-xl hover:shadow-[#cc4444]/20"
       initial="hidden"
       animate={controls}
       variants={countVariants}
-      whileHover={{ scale: 1.05 }}
+      whileHover={{ scale: 1.02 }}
     >
-      <div className="flex flex-row justify-center items-center gap-2">
-        <Image
-          src={icon}
-          alt="collaboration icon"
-          width={45}
-          height={45}
-          //fill
-          style={{ objectFit: "cover" }}
-        />
-        <motion.h3 className="text-5xl font-bold mb-2">{count}+</motion.h3>
+      <div className="flex flex-col items-center gap-4 w-full">
+        <div className="bg-[#000040]/10 p-4 rounded-full">
+          <Image
+            src={icon}
+            alt={`${label} icon`}
+            width={40}
+            height={40}
+            className="brightness-0 saturate-100"
+            style={{ 
+              objectFit: "contain",
+              filter: "invert(9%) sepia(100%) saturate(5876%) hue-rotate(238deg) brightness(102%) contrast(143%)"
+            }}
+          />
+        </div>
+        <motion.div className="text-center">
+          <span className="text-5xl font-bold text-[#cc4444] tabular-nums">
+            {count}
+            <span className="text-3xl ml-0.5">+</span>
+          </span>
+        </motion.div>
       </div>
-
-      <p className="text-gray-600 mt-2 text-center leading-tight">{label}</p>
+      <p className="text-[#000040] text-center font-medium text-lg">
+        {label}
+      </p>
     </motion.div>
   );
 };
