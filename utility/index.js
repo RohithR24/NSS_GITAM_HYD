@@ -46,5 +46,5 @@ export function formatDate(dateString) {
   const options = { year: 'numeric', month: 'long', day: '2-digit' };
   
   // Format the date using toLocaleDateString with the options
-  return date.toLocaleDateString('en-US', options);
+  return date.toLocaleDateString(options);
 }

@@ -110,3 +110,13 @@ export interface TeamProps {
   faculty: TeamMemberProps[]
   student: TeamMemberProps[]
 }
+
+
+export interface Award {
+  id: string;
+  title: string;
+  image: string;
+  location: string;
+  date: string;
+  description: string;
+}

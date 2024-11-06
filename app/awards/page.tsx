@@ -5,12 +5,12 @@ import Image from 'next/image'
 import {hero} from'@/public/images/index'
 // Define the awards data outside of the component to avoid potential issues with serialization
 const awards = [
-  { id: 1, title: "Best NSS Unit Award", image: "/placeholder.svg?height=300&width=300" },
-  { id: 2, title: "Outstanding Community Service", image: "/placeholder.svg?height=300&width=300" },
-  { id: 3, title: "Environmental Conservation Award", image: "/placeholder.svg?height=300&width=300" },
-  { id: 4, title: "Youth Leadership Excellence", image: "/placeholder.svg?height=300&width=300" },
-  { id: 5, title: "Best NSS Programme Officer", image: "/placeholder.svg?height=300&width=300" },
-  { id: 6, title: "National Integration Camp Award", image: "/placeholder.svg?height=300&width=300" },
+  { id: 1, title: "Best NSS Unit Award", image: "/placeholder.svg?height=300&width=300", location: "", date: "", description: " "},
+  { id: 2, title: "Outstanding Community Service", image: "/placeholder.svg?height=300&width=300" , location: "", date: "", description: " "},
+  { id: 3, title: "Environmental Conservation Award", image: "/placeholder.svg?height=300&width=300", location: "", date: "", description: " " },
+  { id: 4, title: "Youth Leadership Excellence", image: "/placeholder.svg?height=300&width=300", location: "", date: "", description: " " },
+  { id: 5, title: "Best NSS Programme Officer", image: "/placeholder.svg?height=300&width=300", location: "", date: "", description: " " },
+  { id: 6, title: "National Integration Camp Award", image: "/placeholder.svg?height=300&width=300" , location: "", date: "", description: " "},
 ]
 
 export default function Awards() {

@@ -11,7 +11,7 @@ import {
   DocumentData,
   deleteDoc,
 } from "firebase/firestore";
-import { Initiative, InitiativeFocusArea, TeamMemberProps, TeamProps } from "@/types/index";
+import { Award, Initiative, InitiativeFocusArea, TeamMemberProps, TeamProps } from "@/types/index";
 import {
   getStorage,
   ref,
@@ -173,9 +173,7 @@ export const saveMember = async (id: number, profileData: TeamMemberProps) => {
     if (profileData.image && profileData.image instanceof File) {
       // If a new image is provided, upload it to Firebase
       profileData.image = await uploadImageToFirebase(
-        profileData.image,
-        profileData.teamId,
-        profileData.id
+        profileData.image
       );
     } else {
       // No new image, so keep the existing image
@@ -195,9 +193,7 @@ export const saveMember = async (id: number, profileData: TeamMemberProps) => {
 
 
 export const uploadImageToFirebase = async (
-  file: File,
-  teamId: number,
-  memberId: number
+  file: File
 ): Promise<string> => {
   try {
     // Get a reference to Firebase Storage
@@ -356,15 +352,60 @@ export const deleteInitiativeFB = async (focusAreaId: string, initiativeId: stri
   }
 };
 
-export const uploadImage = async (file: File, initiativeId: string) => {
+export const uploadImage = async (file: File, Id: string) => {
   try {
     const storage = getStorage();
-    const storageRef = ref(storage, `initiatives/${initiativeId}/${file.name}`);
+    const storageRef = ref(storage, `initiatives/${Id}/${file.name}`);
     await uploadBytes(storageRef, file);
     const downloadURL = await getDownloadURL(storageRef);
     return downloadURL;
   } catch (error) {
     console.error("Error uploading image:", error);
     throw new Error("Failed to upload image. Please try again.");
+  }
+};
+
+
+export const saveAwardToFirebase = async (award: {
+  id: string;
+  title: string;
+  location: string;
+  date: string;
+  description: string;
+  image: string;
+}): Promise<void> => {
+  try {
+    const docRef = doc(db, 'awards', award.id); // Save award in 'awards' collection with `id` as document name
+    await setDoc(docRef, award);
+    console.log("Award data successfully saved to Firestore:", award);
+  } catch (error) {
+    console.error("Error saving award to Firestore:", error);
+    throw error;
+  }
+};
+
+
+export const deleteAwardFromFirebase = async (id: string): Promise<void> => {
+  try {
+    const docRef = doc(db, 'awards', id);
+    await deleteDoc(docRef);
+    console.log("Award successfully deleted from Firestore:", id);
+  } catch (error) {
+    console.error("Error deleting award from Firestore:", error);
+    throw error;
+  }
+};
+
+
+export const fetchAwardsFromFirebase = async (): Promise<Award[]> => {
+  try {
+    const awardsCollection = collection(db, 'awards');
+    const awardDocs = await getDocs(awardsCollection);
+    const awards = awardDocs.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as Award[];
+    console.log("Awards fetched from Firestore:", awards);
+    return awards;
+  } catch (error) {
+    console.error("Error fetching awards from Firestore:", error);
+    throw error;
   }
 };
