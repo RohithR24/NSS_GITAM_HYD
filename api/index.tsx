@@ -11,7 +11,7 @@ import {
   DocumentData,
   deleteDoc,
 } from "firebase/firestore";
-import { Award, Initiative, InitiativeFocusArea, TeamMemberProps, TeamProps } from "@/types/index";
+import { Award, EventCardProps, Initiative, InitiativeFocusArea, TeamMemberProps, TeamProps } from "@/types/index";
 import {
   getStorage,
   ref,
@@ -299,14 +299,8 @@ export const fetchFocusAreas = async (): Promise<InitiativeFocusArea[]> => {
  * @returns {Promise<void>}
  */
 
-interface addInitiativeProps {
-  focusAreaId: any
-  initiative:  any,
-  initiativeId : any
-}
 export const addInitiativeFB = async (focusAreaId: string, initiative: Initiative, initiativeId: string) => {
   try {
-    console.log('Rohith Reddy in saving')
     // Reference to the initiatives collection within the specific focus area
     const initiativeDocRef = doc(db, `focusAreas/${focusAreaId}/initiatives`, initiativeId);
     await setDoc(initiativeDocRef, initiative);
@@ -406,6 +400,86 @@ export const fetchAwardsFromFirebase = async (): Promise<Award[]> => {
     return awards;
   } catch (error) {
     console.error("Error fetching awards from Firestore:", error);
+    throw error;
+  }
+};
+
+
+
+
+
+/**
+ * Create a new event in Firestore
+ * @param eventData - Event data to be saved
+ * @returns ID of the created event
+ */
+export const createEventFB = async (
+  eventData: EventCardProps
+): Promise<string> => {
+  console.log('Attempting to create event:', );
+  try {
+    const eventRef = doc(db, 'events', eventData.id); // Save award in 'awards' collection with `id` as document name
+    await setDoc(eventRef, eventRef);
+    console.log('Event created with ID:', eventData.id);
+    return eventData.id;
+  } catch (error) {
+    console.error('Error creating event:', error);
+    throw error;
+  }
+};
+
+/**
+ * Read all events from Firestore
+ * @returns Array of events
+ */
+export const fetchEventsFB = async (): Promise<EventCardProps[]> => {
+  console.log('Fetching events from Firestore');
+  try {
+    const eventsCollectionRef = collection(db, 'events');
+    const data = await getDocs(eventsCollectionRef);
+    const events = data.docs.map(
+      (doc) => ({ ...doc.data(), id: doc.id } as EventCardProps)
+    );
+    console.log('Events fetched:', events);
+    return events;
+  } catch (error) {
+    console.error('Error reading events:', error);
+    throw error;
+  }
+};
+
+/**
+ * Update an event in Firestore
+ * @param id - ID of the event to update
+ * @param updatedData - Updated event data
+ */
+export const updateEvent = async (
+  id: string,
+  updatedData: EventCardProps
+): Promise<void> => {
+  console.log(`Updating event with ID ${id}:`, updatedData);
+  try {
+    const eventDoc = doc(db, 'events', id);
+    await setDoc(eventDoc, updatedData);
+    console.log('Event updated successfully');
+  } catch (error) {
+    console.error('Error updating event:', error);
+    throw error;
+  }
+};
+
+/**
+ * Delete an event from Firestore
+ * @param id - ID of the event to delete
+ */
+export const deleteEventById = async (id: string): Promise<void> => {
+  console.log('Deleting event with ID:', id);
+  try {
+    const eventDoc = doc(db, 'events', id);
+    await deleteDoc(eventDoc);
+    console.log('Event deleted successfully');
+  } catch (error) {
+    console.error('Error deleting event:', error);
     throw error;
   }
 };
