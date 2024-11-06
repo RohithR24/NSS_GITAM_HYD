@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, X, MapPin, Calendar } from "lucide-react";
 import { Initiative } from "@/types";
+import { logo, NewGitamLogo } from "@/public/images";
 
 interface ModalData {
   title: string;
@@ -17,7 +18,6 @@ interface InitiativesModalProps {
   isModelOpen: boolean;
   closeModal: () => void;
   initiativeData: Initiative | any;
-
 }
 
 const modalData: ModalData[] = [
@@ -91,22 +91,38 @@ export default function InitiativesModal({ isModelOpen, closeModal, initiativeDa
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white w-[90vw] max-w-4xl h-[90vh] rounded-lg overflow-hidden flex flex-col">
-        <div className="bg-[#000040] text-white p-4 flex justify-between items-center">
-          <h3 className="text-xl font-semibold">
-            {initiativeData.caption}
-          </h3>
-          <button
-            onClick={closeModal}
-            className="text-white hover:text-[#cc4444] transition-colors"
-            aria-label="Close modal"
-          >
-            <X size={24} />
-          </button>
+        {/* Instagram-style header */}
+        <div className="bg-[#000040] border-b border-gray-200 p-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <Image
+                src={logo}
+                alt="NSS Logo"
+                width={32}
+                height={32}
+                className="rounded-full border border-gray-200"
+              />
+              <div className="ml-3">
+              <h4 className="font-semibold text-white">{initiativeData.caption}</h4>
+              <div className="flex items-center text-sm text-gray-500 mt-1">
+                <MapPin size={14} className="mr-1" />
+                <span>{initiativeData.location}</span>
+              </div>
+              </div>
+            </div>
+            <button
+              onClick={closeModal}
+              className="text-gray-600 hover:text-[#cc4444] transition-colors"
+              aria-label="Close modal"
+            >
+              <X size={24} />
+            </button>
+          </div>
         </div>
 
         <div className="relative flex-grow overflow-hidden">
           <div className="flex h-full transition-transform duration-300 ease-in-out" style={{ transform: `translateX(-${currentImageIndex * 100}%)` }}>
-            {initiativeData.images.length> 0 && initiativeData.images.map((image:string, index: number) => (
+            {initiativeData.images.length > 0 && initiativeData.images.map((image:string, index: number) => (
               <div key={index} className="flex-shrink-0 w-full h-full relative">
                 <Image
                   src={image}
@@ -132,42 +148,39 @@ export default function InitiativesModal({ isModelOpen, closeModal, initiativeDa
             <ChevronRight size={24} />
           </button>
         </div>
-
-        <div className="p-6 bg-white overflow-y-auto">
-          <p className="text-[#000040] mb-4">
-            {initiativeData.description}
-          </p>
-
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center text-sm text-[#000040] mb-4">
-            <div className="flex items-center mb-2 sm:mb-0">
-              <MapPin size={16} className="mr-2 text-[#cc4444]" />
-              <span>{initiativeData.location}</span>
-            </div>
-            <div className="flex items-center">
-              <Calendar size={16} className="mr-2 text-[#cc4444]" />
+        
+        <div className="p-4 bg-white overflow-y-auto">
+        <div className="flex items-center py-4 text-xs text-gray-500">
+              <Calendar size={14} className="mr-1" />
               <span>{initiativeData.date}</span>
             </div>
-          </div>
+          <div className="space-y-4">
+            <p className="text-[#000040] text-sm">
+              {initiativeData.description}
+            </p>
 
-          <div className="flex justify-between items-center">
-            <div className="flex space-x-2">
-              {modalData[currentModalIndex].images.map((_, index) => (
-                <div
-                  key={index}
-                  className={`w-2 h-2 rounded-full ${
-                    index === currentImageIndex
-                      ? "bg-[#cc4444]"
-                      : "bg-gray-300"
-                  }`}
-                />
-              ))}
+            
+
+            <div className="flex justify-between items-center pt-2 border-t border-gray-100">
+              <div className="flex space-x-2">
+                {modalData[currentModalIndex].images.map((_, index) => (
+                  <div
+                    key={index}
+                    className={`w-1.5 h-1.5 rounded-full ${
+                      index === currentImageIndex
+                        ? "bg-[#cc4444]"
+                        : "bg-gray-300"
+                    }`}
+                  />
+                ))}
+              </div>
+              <button
+                onClick={closeModal}
+                className="text-sm px-4 py-2 bg-[#000040] text-white rounded hover:bg-[#cc4444] transition-colors"
+              >
+                Close
+              </button>
             </div>
-            <button
-              onClick={closeModal}
-              className="px-4 py-2 bg-[#000040] text-white rounded hover:bg-[#cc4444] transition-colors"
-            >
-              Close
-            </button>
           </div>
         </div>
       </div>
