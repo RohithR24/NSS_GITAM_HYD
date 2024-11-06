@@ -1,19 +1,26 @@
 "use client"
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
-import {hero} from'@/public/images/index'
+import { Award } from '@/types'
+import { fetchAwardsFromFirebase } from '@/api'
 // Define the awards data outside of the component to avoid potential issues with serialization
-const awards = [
-  { id: 1, title: "Best NSS Unit Award", image: "/placeholder.svg?height=300&width=300", location: "", date: "", description: " "},
-  { id: 2, title: "Outstanding Community Service", image: "/placeholder.svg?height=300&width=300" , location: "", date: "", description: " "},
-  { id: 3, title: "Environmental Conservation Award", image: "/placeholder.svg?height=300&width=300", location: "", date: "", description: " " },
-  { id: 4, title: "Youth Leadership Excellence", image: "/placeholder.svg?height=300&width=300", location: "", date: "", description: " " },
-  { id: 5, title: "Best NSS Programme Officer", image: "/placeholder.svg?height=300&width=300", location: "", date: "", description: " " },
-  { id: 6, title: "National Integration Camp Award", image: "/placeholder.svg?height=300&width=300" , location: "", date: "", description: " "},
-]
 
 export default function Awards() {
+  const [awards, setAwards] = useState<Award[]> ([]);
+
+  useEffect(()=>{
+    const loadAwards = async () =>{
+      try {
+        const fetchedAwards = await fetchAwardsFromFirebase();
+        setAwards(fetchedAwards);
+      } catch (error) {
+        console.error("Error loading awards:", error);
+      }
+    }
+
+    loadAwards();
+  })
   return (
     <div className="min-h-screen bg-blue-50 py-12 px-4 sm:px-6 lg:px-8">
       <motion.h1 
@@ -38,7 +45,7 @@ export default function Awards() {
               <div className="absolute inset-0 border-8 border-yellow-500 rounded-lg">
                 <Image
                 fill
-                  src={hero}
+                  src={award.image}
                   alt={award.title}
                   className="absolute inset-0 w-full h-full object-cover"
                 />
