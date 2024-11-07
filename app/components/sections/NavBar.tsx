@@ -1,11 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { logo } from '@/public/images/index'; // Adjust this path as necessary
+import {logo} from '@/public/images/index'; // Adjust this path as necessary
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+
 
 const NavItem: React.FC<{ href: string; children: React.ReactNode }> = ({ href, children }) => {
   const pathname = usePathname();
@@ -19,14 +20,15 @@ const NavItem: React.FC<{ href: string; children: React.ReactNode }> = ({ href, 
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const router = useRouter();
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   return (
-    <nav className="sticky top-0 bg-[#000040] shadow-lg z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav className="sticky bg-[#000040] shadow-md ">
+      <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
-          <div className="flex items-center">
+          <div className="flex">
             <Link href="/" className="flex-shrink-0 flex items-center">
               <Image 
                 src={logo} 
