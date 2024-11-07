@@ -25,9 +25,6 @@ export default function Home() {
       <section>
         <Team />
       </section>
-      <section>
-        <Footer />
-      </section>
     </div>
   );
 }
