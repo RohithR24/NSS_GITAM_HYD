@@ -26,7 +26,7 @@ export default function BlogComingSoon() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-[#000040] text-gray-200 p-4">
+    <div className="min-h-screen flex flex-col justify-center items-center text-[#000040] p-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
