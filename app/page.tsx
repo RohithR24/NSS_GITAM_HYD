@@ -17,13 +17,13 @@ export default function Home() {
         <Statistics />
       </section>
       <section className="px-0 py-10 ">
-        {/* <Initiatives /> */}
+        <Initiatives />
       </section>
       <section className="px-0 py-10 ">
         <Collaborations />
       </section>
       <section>
-        {/* <Team /> */}
+        <Team />
       </section>
     </div>
   );
