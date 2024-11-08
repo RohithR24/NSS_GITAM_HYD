@@ -16,6 +16,7 @@ export const StatCard: React.FC<StatCardProps> = ({
   icon,
   endNumber,
   label,
+  isKFormat
 }) => {
   const [count, setCount] = useState(0);
   const controls = useAnimation();
@@ -27,18 +28,25 @@ export const StatCard: React.FC<StatCardProps> = ({
   React.useEffect(() => {
     if (inView) {
       controls.start("visible");
+      const numDigits = endNumber.toString().length;
+      const increment = Math.pow(10, numDigits - 1) / 100; // Adjust increment
+      const delay = 0; // Increased delay
       const timer = setInterval(() => {
         setCount((prevCount) => {
           if (prevCount < endNumber) {
-            return prevCount + 1;
+            const newCount = Math.min(prevCount + increment, endNumber);
+            return newCount;
+          } else {
+            clearInterval(timer);
+            return prevCount;
           }
-          clearInterval(timer);
-          return prevCount;
         });
-      }, 1);
+      }, delay);
       return () => clearInterval(timer);
     }
   }, [inView, controls, endNumber]);
+  
+  
 
   return (
     <motion.div
@@ -65,7 +73,7 @@ export const StatCard: React.FC<StatCardProps> = ({
         </div>
         <motion.div className="text-center">
           <span className="text-5xl font-bold text-[#cc4444] tabular-nums">
-            {count}
+          {isKFormat ? `${count}K` : `${Math.floor(count)}`}
             <span className="text-3xl ml-0.5">+</span>
           </span>
         </motion.div>

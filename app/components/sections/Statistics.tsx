@@ -20,31 +20,31 @@ export default function Statistics() {
               icon={volunteer}
               endNumber={500}
               label="Active Volunteers"
-      
+              isKFormat={false}
             />
             <StatCard
               icon={blood}
               endNumber={20}
               label="Blood Donation Camps"
-   
+              isKFormat={false}
             />
             <StatCard
               icon={bookdonation}
               endNumber={30}
               label="Book Distributions"
-   
+              isKFormat={false}
             />
             <StatCard
               icon={collaboration}
               endNumber={10}
               label="Active Collaborations"
-       
+              isKFormat={false}
             />
             <StatCard
               icon={SocialService}
-              endNumber={100}
+              endNumber={120}
               label="Hours Social Service"
- 
+              isKFormat={true}
             />
           </div>
         </div>

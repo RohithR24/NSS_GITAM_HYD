@@ -13,6 +13,7 @@ export interface StatCardProps {
   icon: string | any;
   endNumber: number;
   label: string;
+  isKFormat: boolean;
 }
 
 
