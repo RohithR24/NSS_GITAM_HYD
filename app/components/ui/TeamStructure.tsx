@@ -55,9 +55,9 @@ export default function TeamStructure({ teamData }: TeamDataProps) {
                 selectedTeam.length === 1
                   ? 'grid-cols-1 justify-items-center'
                   : selectedTeam.length === 2
-                  ? 'grid-cols-1 md:grid-cols-2 justify-items-center'
+                  ? 'sm:grid-cols-1 grid-cols-1 md:grid-cols-2 justify-items-center'
                   : selectedTeam.length === 3
-                  ? 'grid-cols-3 justify-items-center'
+                  ? 'sm:grid-cols-1 grid-cols-3 justify-items-center'
                   : selectedTeam.length <= 6
                   ? 'md:grid-cols-3 lg:grid-cols-3 justify-items-center'
                   : 'md:grid-cols-4 lg:grid-cols-4'
